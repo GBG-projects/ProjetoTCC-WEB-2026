@@ -1,21 +1,34 @@
-import { HeapInfo } from "v8";
+import styles from './input.module.css';
 
 type inputProps = {
-    fontSize?: number | 18,
-    className?:string,
-    textLabel:string,
+    fontSize?: number,
+    className?: string,
+    textLabel: string,
     type: string,
     placeholder: string,
     value: string,
-    id:string
-    setValue:(value: string) => void;
+    id: string,
+    required?: boolean,
+    setValue: (value: string) => void;
+    icon?: React.ReactNode;
 }
 
-export default function Input({textLabel,type, placeholder, value, id, setValue}:inputProps){
-    return(
-        <div className="flex flex-col w-fit">
-        <label htmlFor={id}>{textLabel}</label>
-        <input className=" w-70 h-12" type={type} placeholder={placeholder} value={value} id={id} onChange={(e) => setValue(e.target.value)}/>
+export default function Input({ textLabel, type, placeholder, value, id, setValue, required, className, icon }: inputProps) {
+    return (
+        <div className={`${styles.wrapper} ${className || ''}`}>
+            <label htmlFor={id}>{textLabel}</label>
+            <div className={styles.inputWrapper}>
+                <input
+                    className={styles.input}
+                    type={type}
+                    placeholder={placeholder}
+                    value={value}
+                    id={id}
+                    onChange={(e) => setValue(e.target.value)}
+                    required={required}
+                />
+                {icon}
+            </div>
         </div>
-    )
+    );
 }

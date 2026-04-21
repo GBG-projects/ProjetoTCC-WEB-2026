@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #0d0b14;
+  color: #fff;
+}
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d0b14;
+  color: #fff;
+
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.button {
+  margin-top: 24px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}

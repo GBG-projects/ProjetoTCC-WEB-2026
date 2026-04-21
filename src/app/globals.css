@@ -1,9 +1,23 @@
-@import "tailwindcss";
-
-
-body {
+html {
+  background: #0d0b14;
   height: 100vh;
+}
+
+html,
+body {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  height: 100vh;
+  background: #0d0b14;
+  color: #fff;
+  font-family: system-ui, sans-serif;
 }
