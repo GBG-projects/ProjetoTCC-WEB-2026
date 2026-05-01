@@ -7,6 +7,7 @@ import Button from "../components/Button/Button";
 import { Eye,EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toastAviso, toastErro } from "../components/toasts/toastsPersonalizados";
 
 interface User {
     codusuario:number,
@@ -17,6 +18,8 @@ interface User {
     pontos?:number
 }
 export default function signup(){
+    const [image,setImage] = useState<File | null>(null);
+    const [preview, setPreview] = useState<string | null>(null);
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -24,54 +27,56 @@ export default function signup(){
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const router = useRouter();
-    const [error,setError] = useState('')
     const [loading, setLoading] = useState(false);
 
     async function criarUsuario() {
         if(name.length<3 || name.length>255){
-            setError('Seu nome deve possuir mais do que 3 caracteres e menos do que 255 caracteres')
+            toastErro('Seu nome deve possuir mais do que 3 caracteres e menos do que 255 caracteres')
             return
         }
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailRegex.test(email)) {
-            setError('Por favor, insira um e-mail válido');
+            toastErro('Por favor, insira um e-mail válido');
             return;
         }
         else if(!/[A-Z]/.test(password)){
-            setError('Sua senha deve possuir pelo menos 8 caracteres, uma letra minuscula[a-z], uma maiuscula[A-Z], um numero[0-9] e um caractere especial[!@#$%^&*]')
+            toastErro('Sua senha deve possuir pelo menos 8 caracteres, uma letra minuscula[a-z], uma maiuscula[A-Z], um numero[0-9] e um caractere especial[!@#$%^&*]')
             return
         }
         else if(password!=confirmPassword){
-            setError('Senha e confirmar senha estão diferentes')
+            toastErro('Senha e confirmar senha estão diferentes')
             return
         }
 
       try {
         setLoading(true)
+        const formData = new FormData();
+        
+        if (image) {
+        formData.append('foto', image);
+        }
+        formData.append('nome', name);
+        formData.append('email', email);
+        formData.append('senha', password);
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            nome: name,
-            email: email,
-            password: password
-          })
-        });
+          body: formData
+        })
+        
 
         const dados = await response.json()
 
         if (!response.ok) {
-          setError(dados.erro)
+          toastErro(dados.erro)
           return
         }
-
+        toastAviso("Um token de verificação foi enviado para a sua conta")
         router.push('/signin')
       } catch (error) {
         console.error(error);
-        setError('Erro ao criar usuário');
+        toastErro('Erro ao cadastrar usuário')
       }
       finally{
         setLoading(false)
@@ -98,6 +103,27 @@ export default function signup(){
                     criarUsuario()
                 }} className={styles.form}>
                     <h1 className={pageStyles.title}>Criar conta</h1>
+                    
+                    <label className={styles.photo}>
+                    {!preview?<span>Adicionar foto</span>:<img src={preview}></img>}
+                
+                    
+                    <input accept="image/*" type="file" hidden onChange={(e)=>{
+                        const file = e.target.files?.[0] ?? null
+                        setImage(file)
+
+                        if(preview){
+                            URL.revokeObjectURL(preview)
+                        }
+                        if(file){
+                            setPreview(URL.createObjectURL(file))
+                            return
+                        }
+                        setPreview(null)
+                        
+                    }}/>
+                    
+                    </label>
                     <div className={styles.inputFields}>
                         <Input textLabel="Usuario" type="text" placeholder="Insira um nome de usuário" value={name} id="name" setValue={setName} required />
                     </div>

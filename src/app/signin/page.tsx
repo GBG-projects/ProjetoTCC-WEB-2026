@@ -8,11 +8,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import pageStyles from '../page.module.css'
 import { Eye, EyeOff } from "lucide-react";
+import { toastErro, toastSucesso } from "../components/toasts/toastsPersonalizados";
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false)
     const router = useRouter();
@@ -26,8 +26,9 @@ export default function Login() {
             redirect: false
         });
         if (res?.error) {
-            setError("Usuario ou senha incorretos");
+            toastErro("Usuario ou senha incorretos");
         } else {
+            toastSucesso('Login executado com sucesso')
             router.push('/dashboard');
         }
         setLoading(false)
@@ -67,9 +68,10 @@ export default function Login() {
                             }
                         />
                     </div>
-                    {error && <p className={styles.errorText}>{error}</p>}
+        
 
                     <Button text={loading?"Entrando":"Entrar"} disabled={loading}/>
+                    <button onClick={()=> signIn("google")}>entrar com google</button>
                 </form>
             </div>
         </div>

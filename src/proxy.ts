@@ -13,6 +13,7 @@ const public_pages = [
   "/",
   "/signin",
   "/signup",
+  "/verificado"
 ]
 
 function isPublicPage(pathname: string){

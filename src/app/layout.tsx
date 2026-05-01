@@ -1,5 +1,7 @@
+import { Toaster } from "sonner";
 import Providers from "./components/Providers/Providers";
 import '@/app/globals.css'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -10,6 +12,7 @@ export default function RootLayout({
       <body>
         <Providers>
           {children}
+           <Toaster richColors position="bottom-right" /> 
         </Providers>
       </body>
     </html>
