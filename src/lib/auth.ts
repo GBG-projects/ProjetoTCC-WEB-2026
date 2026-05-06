@@ -2,6 +2,16 @@ import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from "next-auth/providers/google";
 
+import { Profile } from 'next-auth'
+import { toastSucesso } from '@/app/components/toasts/toastsPersonalizados';
+
+// Adiciona os campos que o Google retorna
+interface GoogleProfile extends Profile {
+  email_verified?: boolean
+  sub?: string
+}
+
+
 export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/signin',
@@ -27,7 +37,11 @@ export const authOptions: NextAuthOptions = {
         if (!response.ok) return null;
 
         const user = await response.json();
-        return user ?? null;
+        return {
+          id: String(user.id),
+          email: user.email,
+          name: user.nome
+        }
 
       } catch (error) {
         console.error('Erro durante a autenticação:', error);
@@ -49,13 +63,43 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: 'jwt',
+    maxAge: 60*60*24*7
   },
   callbacks:{
-    async signIn({ user }) {
-    // procurar no banco
-    // se não existir -> criar usuário
-    // verified = true
-    return true;
+    async signIn({ user, profile, account }) {
+      if (account?.provider === "credentials") return true;
+      if (account?.provider === "google") return true; //  deixa o Google passar
+      return false;
+    },
+    async jwt({token, user, account, profile}){
+
+      if(user?.id){
+        token.id = user.id
+      }
+      if (account?.provider === "google" && profile) {
+      const googleProfile = profile as GoogleProfile
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/register/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: googleProfile.email,
+          nome: googleProfile.name,
+          googleId: googleProfile.sub,
+        }),
+      });
+
+      const dbUser = await response.json()
+      token.id = String(dbUser.id)
     }
+      return token
+    },
+    async session({session, token}){
+      if(token.id){
+        session.user.id = token.id
+      }
+      return session;
+    }
+
+          
   }
 }

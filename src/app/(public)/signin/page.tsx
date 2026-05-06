@@ -1,14 +1,14 @@
 'use client'
 import { useState } from "react";
-import Button from "../components/Button/Button";
-import Input from "../components/Input/input";
+import Button from "../../components/Button/Button";
+import Input from "../../components/Input/input";
 import styles from './signin.module.css'
 import { signIn } from 'next-auth/react'
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import pageStyles from '../page.module.css'
+import pageStyles from '../../page.module.css'
 import { Eye, EyeOff } from "lucide-react";
-import { toastErro, toastSucesso } from "../components/toasts/toastsPersonalizados";
+import { toastErro, toastSucesso } from "../../components/toasts/toastsPersonalizados";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -16,8 +16,13 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false)
     const router = useRouter();
-
-    const login = async (e: React.FormEvent<HTMLFormElement>) => {
+// o login com google ta bugado, ajeitar dps
+    const loginGoogle = async()=>{
+        await signIn('google', {
+            callbackUrl:'/dashboard'
+        })
+    }
+    const loginCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true)
         const res = await signIn('credentials', {
@@ -48,7 +53,7 @@ export default function Login() {
 
             <div className={styles.container}>
                 <div className={styles.heroGlow} />
-                <form action="" onSubmit={login} className={styles.form}>
+                <form action="" onSubmit={loginCredentials} className={styles.form}>
                     <h1 className={pageStyles.title}>Entrar</h1>
                     <div className={styles.inputFields}>
                         <Input textLabel="Email" type="text" placeholder="Insira um email" value={email} id="email" setValue={setEmail} />
@@ -71,8 +76,8 @@ export default function Login() {
         
 
                     <Button text={loading?"Entrando":"Entrar"} disabled={loading}/>
-                    <button onClick={()=> signIn("google")}>entrar com google</button>
-                </form>
+                    <button type="button" onClick={loginGoogle}>entrar com google</button>
+                </form> 
             </div>
         </div>
     );

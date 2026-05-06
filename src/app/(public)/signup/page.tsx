@@ -1,22 +1,15 @@
 'use client'
 import { useEffect, useState } from "react";
 import styles from './signup.module.css'
-import pageStyles from '../page.module.css'
-import Input from "../components/Input/input";
-import Button from "../components/Button/Button";
+import pageStyles from '../../page.module.css'
+import Input from "../../components/Input/input";
+import Button from "../../components/Button/Button";
 import { Eye,EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { toastAviso, toastErro } from "../components/toasts/toastsPersonalizados";
+import { toastAviso, toastErro } from "../../components/toasts/toastsPersonalizados";
 
-interface User {
-    codusuario:number,
-    nome:string,
-    email:string,
-    senha:string,
-    nivel?:number,
-    pontos?:number
-}
+
 export default function signup(){
     const [image,setImage] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
@@ -163,8 +156,6 @@ export default function signup(){
                             }
                         />
                     </div>
-
-                    {error && <p className={styles.errorText}>{error}</p>}
                     <Button text={loading?"Criando conta...":"Criar conta"} disabled={loading}/>
                 </form>
             </div>

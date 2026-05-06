@@ -15,19 +15,8 @@ const devs = [
 ];
 
 export default function Home() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/dashboard");
-    }
-  }, [status, router]);
-
-  if (status === "loading") {
-    return null;
-  }
-
+  
+  
   return (
     <div className={styles.page}>
       {/* Navbar */}

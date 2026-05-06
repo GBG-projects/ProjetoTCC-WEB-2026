@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-
+import { getToken } from "next-auth/jwt"
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL
 
 const public_route_api = [
@@ -25,9 +25,9 @@ function isPublicRoute(pathname: string){
 }
 
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
-  const token = request.cookies.get('next-auth.session-token')?.value
+  const token = await getToken({ req: request })
 
   if (pathname.startsWith('/api/')) {
 
@@ -43,11 +43,15 @@ export function proxy(request: NextRequest) {
     return NextResponse.rewrite(backend_url)
   }
 
+
   if (isPublicPage(pathname)) {
+    if(token){
+      const DashboardUrl = new URL('/dashboard', request.url)
+      return NextResponse.redirect(DashboardUrl)
+    }
     return NextResponse.next()
   }
 
-  // Páginas privadas sem token redirecionam para login
   if (!token) {
     const loginUrl = new URL('/signin', request.url)
     return NextResponse.redirect(loginUrl)

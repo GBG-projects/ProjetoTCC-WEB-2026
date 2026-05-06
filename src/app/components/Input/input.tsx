@@ -11,9 +11,10 @@ type inputProps = {
     required?: boolean,
     setValue: (value: string) => void;
     icon?: React.ReactNode;
+    disable?: boolean;
 }
 
-export default function Input({ textLabel, type, placeholder, value, id, setValue, required, className, icon }: inputProps) {
+export default function Input({ textLabel, type, placeholder, value, id, setValue, required, className, icon , disable}: inputProps) {
     return (
         <div className={`${styles.wrapper} ${className || ''}`}>
             <label htmlFor={id}>{textLabel}</label>
@@ -26,6 +27,7 @@ export default function Input({ textLabel, type, placeholder, value, id, setValu
                     id={id}
                     onChange={(e) => setValue(e.target.value)}
                     required={required}
+                    disabled={disable}
                 />
                 {icon}
             </div>

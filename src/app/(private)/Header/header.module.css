@@ -1,0 +1,41 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  border-bottom: 1px solid rgba(214, 21, 21, 0.128);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+
+.brandName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-links {
+  padding: 10px 20px;
+  background-color: #7c3aed;
+  color: #fff;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.btn-links:hover {
+  background-color: #8b5cf6;
+}
