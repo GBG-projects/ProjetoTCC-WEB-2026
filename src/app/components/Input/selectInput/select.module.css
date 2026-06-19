@@ -1,0 +1,4 @@
+.wrapper { display: flex; flex-direction: column; gap: 4px; }
+.label { font-size: 14px; }
+.selectWrapper { display: flex; align-items: center; position: relative; }
+.select { width: 100%; appearance: none; padding-right: 2rem; }

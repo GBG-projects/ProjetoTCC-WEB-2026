@@ -4,6 +4,7 @@ import styles from './header.module.css'
 import { useState } from "react";
 export default function Header(){
     const [name,setName] = useState('') 
+    
     return(
         <header style={{ borderBottom: "1px solid #977272" }}>
             <nav className={styles.nav}>
@@ -17,6 +18,9 @@ export default function Header(){
                 </Link>
                 <Link href="/profile" className={styles["btn-links"]}>
                     Perfil
+                </Link>
+                <Link href='/study-methods' className={styles["btn-links"]}>
+                    Métodos de estudo
                 </Link>
                 </div>
             </nav>

@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 import Button from "../../components/Button/Button";
-import Input from "../../components/Input/input";
+import Input from "../../components/Input/input/input";
 import styles from './signin.module.css'
 import { signIn } from 'next-auth/react'
 import Link from "next/link";

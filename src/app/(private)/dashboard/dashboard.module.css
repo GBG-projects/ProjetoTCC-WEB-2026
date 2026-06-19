@@ -7,6 +7,7 @@ body {
 .page {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: #0d0b14;
@@ -16,6 +17,7 @@ body {
 
 .content {
   text-align: center;
+  
 }
 
 .title {
@@ -32,4 +34,75 @@ body {
   color: #fff;
   border: none;
   cursor: pointer;
+}
+
+.openModalButton {
+  margin-top: 24px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+
+
+
+
+
+
+  
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: #111827;
+  padding: 24px;
+  border-radius: 16px;
+  min-width: 320px;
+  color: #f8fafc;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.35);
+}
+
+.modalCloseButton {
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  font-size: 1.5rem;
+  cursor: pointer;
+  float: right;
+}
+
+.modalTitle {
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.modalForm {
+  display: grid;
+  gap: 16px;
+}
+
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #374151;
+  border-radius: 10px;
+  background: #1f2937;
+  color: #f8fafc;
 }

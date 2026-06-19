@@ -16,6 +16,14 @@
   background-color: #fb7185;
 }
 
+.confirmButton {
+  background-color: #10b981;
+}
+
+.confirmButton:hover {
+  background-color: #059669;
+}
+
 .iconButton {
     width: 30px;
     height: 30px;

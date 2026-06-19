@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from './signup.module.css'
 import pageStyles from '../../page.module.css'
-import Input from "../../components/Input/input";
+import Input from "../../components/Input/input/input";
 import Button from "../../components/Button/Button";
 import { Eye,EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ export default function signup(){
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    async function criarUsuario() {
+    async function createUser() {
         if(name.length<3 || name.length>255){
             toastErro('Seu nome deve possuir mais do que 3 caracteres e menos do que 255 caracteres')
             return
@@ -93,7 +93,7 @@ export default function signup(){
                 <div className={styles.heroGlow} />
                 <form action="" onSubmit={(e) =>{
                     e.preventDefault()
-                    criarUsuario()
+                    createUser()
                 }} className={styles.form}>
                     <h1 className={pageStyles.title}>Criar conta</h1>
                     
