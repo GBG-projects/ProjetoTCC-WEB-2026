@@ -51,22 +51,7 @@ export function Modal({ isOpen, onClose }: ModalProps) {
     console.log(new Date().toISOString())
     setDisabled(true);
     try{
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/questao_resolvida`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(dados)
-      });
-      console.log(response)
-      if (!response.ok) {
-        console.log(response.ok)
-        throw new Error('Erro ao enviar dados');
-      }
-      toastSucesso('Dados enviados com sucesso!');
-      onClose();  
-    }
-    catch(error){
+
       toastErro('Ocorreu um erro ao enviar os dados. Por favor, tente novamente.');
       return;
     }

@@ -1,20 +1,22 @@
 import styles from './input.module.css';
 
-type inputProps = {
+type InputProps<T extends string | number> = {
     fontSize?: number,
     className?: string,
-    textLabel: string,
-    type: string,
-    placeholder: string,
-    value: string,
-    id: string,
+    textLabel: string | number,
+    type?: string,
+    placeholder?: string,
+    value?: T,
+    id?: string,
     required?: boolean,
-    setValue: (value: string) => void;
+    setValue: (value: T) => void;
     icon?: React.ReactNode;
-    disable?: boolean;
+    disable?: boolean,
 }
 
-export default function Input({ textLabel, type, placeholder, value, id, setValue, required, className, icon , disable}: inputProps) {
+export default function Input<T extends string | number>({
+    textLabel, type = 'text', placeholder = '', value, id = '', setValue, required, className, icon, disable
+}: InputProps<T>) {
     return (
         <div className={`${styles.wrapper} ${className || ''}`}>
             <label htmlFor={id}>{textLabel}</label>
@@ -23,9 +25,16 @@ export default function Input({ textLabel, type, placeholder, value, id, setValu
                     className={styles.input}
                     type={type}
                     placeholder={placeholder}
-                    value={value}
+                    value={value as any}
                     id={id}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e) => {
+                        const v = e.target.value;
+                        if (type === 'number') {
+                            setValue((v === '' ? 0 : Number(v)) as T);
+                        } else {
+                            setValue(v as T);
+                        }
+                    }}
                     required={required}
                     disabled={disable}
                 />
