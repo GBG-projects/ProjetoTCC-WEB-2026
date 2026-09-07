@@ -36,7 +36,7 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "src/lib/db.js"
-  ],
+, "src/app/components/SessionStudy/NovoMetodo.jsx", "src/app/components/SessionStudy/MetodoCard.jsx", "src/app/components/SessionStudy/forms/PomodoroForm.jsx", "src/app/components/SessionStudy/forms/MapaMentalForm.jsx", "src/app/components/SessionStudy/forms/LivreForm.jsx", "src/app/(private)/sessions-study/page.tsx"  ],
   "exclude": [
     "node_modules"
   ]

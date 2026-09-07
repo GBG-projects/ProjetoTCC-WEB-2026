@@ -1,0 +1,641 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    #0d2c66 0%,
+    #164a8f 50%,
+    #2f7fce 100%
+  );
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 2rem 3rem;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+/* =========================
+   VOLTAR
+========================= */
+
+.voltarLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    color 0.15s ease-in-out,
+    transform 0.15s ease-in-out;
+}
+
+.voltarLink:hover {
+  color: #ffffff;
+  transform: translateX(-2px);
+}
+
+/* =========================
+   CARD PRINCIPAL
+========================= */
+
+.card {
+  position: relative;
+
+  border-radius: 1.5rem;
+
+  background-color: rgba(18, 36, 92, 0.7);
+
+  color: #ffffff;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+
+  backdrop-filter: blur(8px);
+
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 2rem;
+  }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 1rem;
+
+  margin-bottom: 1.5rem;
+}
+
+.metodoIcone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 3rem;
+  height: 3rem;
+
+  flex-shrink: 0;
+
+  border-radius: 0.75rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metodoIcone svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.titulo {
+  margin: 0 0 0.25rem;
+
+  color: #ffffff;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.subtitulo {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.875rem;
+}
+
+.metodoBadge {
+  margin-left: auto;
+
+  border-radius: 9999px;
+
+  padding: 0.25rem 0.75rem;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  border: 1px solid;
+
+  white-space: nowrap;
+}
+
+/* =========================
+   SEÇÃO
+========================= */
+
+.section {
+  border-radius: 1rem;
+
+  background-color: rgba(255, 255, 255, 0.05);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  padding: 1.25rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.section:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.sectionLabel {
+  margin: 0;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* =========================
+   ESTADOS
+========================= */
+
+.estadoCentral {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.75rem;
+
+  min-height: 250px;
+
+  padding: 1.5rem;
+
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.estadoCentral p {
+  margin: 0;
+}
+
+.spinner {
+  width: 1.75rem;
+  height: 1.75rem;
+
+  color: #38bdf8;
+
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.estadoMensagem {
+  margin: 0;
+
+  padding: 1.5rem 0;
+
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.875rem;
+}
+
+/* =========================
+   BOTÃO VOLTAR
+========================= */
+
+.voltarBtn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.5rem;
+
+  margin-top: 0.5rem;
+
+  border: none;
+  border-radius: 0.75rem;
+
+  background-color: #0ea5e9;
+
+  padding: 0.6rem 1rem;
+
+  color: #ffffff;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition: background-color 0.15s ease-in-out;
+}
+
+.voltarBtn:hover {
+  background-color: #38bdf8;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+.stat {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.4rem;
+
+  min-width: 0;
+
+  border-radius: 0.75rem;
+
+  background-color: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  padding: 0.9rem;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.stat:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.statLabel {
+  color: rgba(255, 255, 255, 0.6);
+
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.statValor {
+  color: #ffffff;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.statusPill {
+  display: inline-flex;
+
+  align-items: center;
+
+  width: fit-content;
+
+  border-radius: 9999px;
+
+  padding: 0.25rem 0.65rem;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* =========================
+   ANOTAÇÕES
+========================= */
+
+.anotacoes {
+  margin: 0;
+
+  border-radius: 0.75rem;
+
+  background-color: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  padding: 1rem;
+
+  color: rgba(255, 255, 255, 0.85);
+
+  font-size: 0.875rem;
+
+  line-height: 1.6;
+}
+
+/* =========================
+   MIRO
+========================= */
+
+.linkMiro {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+
+  border-radius: 0.75rem;
+
+  padding: 0.6rem 1rem;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    background-color 0.15s ease-in-out,
+    transform 0.15s ease-in-out;
+}
+
+.linkMiro:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+
+  transform: translateY(-1px);
+}
+
+/* =========================
+   FLASHCARDS
+========================= */
+
+.listaFlashcards {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.75rem;
+}
+
+.flashcardItem {
+  border-radius: 0.75rem;
+
+  background-color: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  padding: 1rem;
+
+  transition: background-color 0.15s ease-in-out;
+}
+
+.flashcardItem:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.flashcardPergunta {
+  margin: 0 0 0.4rem;
+
+  color: #ffffff;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.flashcardResposta {
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.85rem;
+
+  line-height: 1.5;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footerTexto {
+  margin: 1.5rem 0 0;
+
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.7);
+
+  font-size: 0.875rem;
+}
+
+/* =========================
+   BOLHAS DECORATIVAS
+========================= */
+
+.blob {
+  position: absolute;
+
+  pointer-events: none;
+
+  border-radius: 9999px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(125, 195, 255, 0.6),
+    rgba(37, 99, 235, 0.6)
+  );
+}
+
+.blob1 {
+  top: -2.5rem;
+  right: 2.5rem;
+
+  width: 10rem;
+  height: 10rem;
+}
+
+.blob2 {
+  top: 6rem;
+  right: 0;
+
+  width: 6rem;
+  height: 6rem;
+
+  opacity: 0.5;
+}
+
+.blob3 {
+  bottom: 2.5rem;
+  left: 0;
+
+  width: 7rem;
+  height: 7rem;
+
+  transform: translateX(-33%);
+
+  opacity: 0.4;
+}
+
+.blob4 {
+  bottom: 10rem;
+  left: 6rem;
+
+  width: 4rem;
+  height: 4rem;
+
+  opacity: 0.3;
+}
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 639px) {
+  .page {
+    padding: 1.25rem 1rem 2rem;
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: 1.25rem;
+  }
+
+  .header {
+    align-items: flex-start;
+  }
+
+  .metodoBadge {
+    margin-left: 0;
+  }
+
+  .titulo {
+    font-size: 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.novaSessaoBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  background-color: #0ea5e9;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.novaSessaoBtn:hover {
+  background-color: #38bdf8;
+}
+
+.novaSessaoBtn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.metodoCardLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  cursor: pointer;
+}
+
+.metodoCardLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  filter: brightness(1.08);
+}
+
+.metodoCardLink:active {
+  transform: translateY(0);
+}
+
+.metodoCardIcone {
+  width: 44px;
+  height: 44px;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.metodoCardTextos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.metodoCardTitulo {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.metodoCardSubtitulo {
+
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+.metodoCardLink,
+.metodoCardLink:visited,
+.metodoCardLink:hover,
+.metodoCardLink:active {
+  color: inherit;
+}

@@ -1,0 +1,9 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.mainWrapper {
+  flex: 1;
+  min-width: 0; /* evita overflow com tabelas largas */
+}

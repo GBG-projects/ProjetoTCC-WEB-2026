@@ -1,0 +1,172 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 8, 20, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  background: linear-gradient(160deg, #1b2a4b 0%, #101a33 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.titulo {
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.subtitulo {
+  color: #93a4c3;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.btnSair {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cfd8ec;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btnSair:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardLabel {
+  color: #93a4c3;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #e2e8f7;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.select,
+.input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select option {
+  background: #1b2a4b;
+  color: #fff;
+}
+
+.input::placeholder {
+  color: #7c8bab;
+}
+
+.select:focus,
+.input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+.acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btnCancelar {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cfd8ec;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 10px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btnCancelar:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.btnCriar {
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 10px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35);
+  transition: filter 0.2s ease, transform 0.15s ease;
+}
+
+.btnCriar:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.btnCancelar:disabled,
+.btnCriar:disabled,
+.btnSair:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rodape {
+  text-align: center;
+  color: #7c8bab;
+  font-size: 0.8rem;
+  margin: 4px 0 0;
+}

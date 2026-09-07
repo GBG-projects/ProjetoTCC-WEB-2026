@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 interface User {
@@ -26,38 +26,43 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchUser = async () => {
-    if (!session?.user?.id) return;
-    setLoading(true);
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/usuario/${session.user.id}`);
-      if (!response.ok) return;
-      const data = await response.json();
-      setUser(data);
-    } catch (error) {
-      console.error('Erro ao buscar usuário:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const atualizarUser = useCallback((dados: Partial<User>) => {
+  setUser(prev => prev ? { ...prev, ...dados } : null);
+}, []);
 
-  const atualizarUser = (dados: Partial<User>) => {
-    setUser(prev => prev ? { ...prev, ...dados } : null);
-  };
+const fetchUser = useCallback(async () => {
+  if (!session?.user?.id) return;
+  setLoading(true);
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/usuario/${session.user.id}`);
+    if (!response.ok) return;
+    const data = await response.json();
+    setUser(data);
+  } catch (error) {
+    console.error('Erro ao buscar usuário:', error);
+  } finally {
+    setLoading(false);
+  }
+}, [session?.user?.id]);
 
-  const recarregarUser = async () => {
-    await fetchUser();
-  };
+const recarregarUser = useCallback(async () => {
+  await fetchUser();
+}, [fetchUser]);
 
-  useEffect(() => {
-    fetchUser();
-  }, [session?.user?.id]);
+useEffect(() => {
+  fetchUser();
+}, [fetchUser]);
 
-  return (
-    <UserContext.Provider value={{ user, loading, atualizarUser, recarregarUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+const value = useMemo(
+  () => ({ user, loading, atualizarUser, recarregarUser }),
+  [user, loading, atualizarUser, recarregarUser]
+);
+
+return (
+  <UserContext.Provider value={value}>
+    {children}
+  </UserContext.Provider>
+);
 }
 
 export function useUser() {
