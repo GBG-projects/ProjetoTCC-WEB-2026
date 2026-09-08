@@ -1,0 +1,288 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #0d2c66 0%, #164a8f 50%, #2f7fce 100%);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 2rem 3rem;
+  }
+}
+
+.logo {
+  position: relative;
+  z-index: 10;
+  width: 100px;
+  height: 80px;
+  display: block;     
+  object-fit: contain;
+  user-select: none;
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .content {
+    flex-direction: row;
+  }
+}
+
+.card {
+  border-radius: 1.5rem;
+  background-color: rgba(18, 36, 92, 0.7);
+  color: #ffffff;
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+.main {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .main {
+    padding: 2.5rem;
+  }
+}
+
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.headerTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.35rem;
+}
+
+.headerTitleRow svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #ffffff;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.9rem;
+}
+
+.cicloBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background-color: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6ee7b7;
+}
+
+.cicloBadge svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.cicloBadgePausa {
+  background-color: rgba(244, 63, 94, 0.16);
+  border-color: rgba(244, 63, 94, 0.4);
+  color: #fda4af; /* rose-300 */
+}
+
+
+.timerWrapper {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  max-width: 80vw;
+  max-height: 80vw;
+  margin: 1rem 0 2rem;
+}
+
+.timerSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.trackCircle {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 10;
+}
+
+.progressCircle {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease, stroke 0.3s ease;
+}
+
+.progressCirclePausa {
+  stroke: #7dd3fc;
+}
+
+.progressDot {
+  fill: #ffffff;
+
+}
+
+.timerCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.timerModo {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.timerValor {
+  font-size: 3.25rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.timerTotal {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.controlsRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.controlBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.9rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: background-color 0.15s ease-in-out;
+}
+
+.controlBtn:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.controlBtn svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.controlBtnPrimario {
+  background-color: #0ea5e9;
+  border-color: transparent;
+}
+
+.controlBtnPrimario:hover {
+  background-color: #38bdf8;
+}
+
+.controlBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+.dica {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 0.6rem 1.25rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dica svg {
+  width: 1rem;
+  height: 1rem;
+  color: #6ee7b7;
+  flex-shrink: 0;
+}
+
+
+.blob {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(125, 195, 255, 0.6), rgba(37, 99, 235, 0.6));
+}
+
+.blob1 {
+  top: -2.5rem;
+  right: 2.5rem;
+  width: 10rem;
+  height: 10rem;
+}
+
+.blob2 {
+  top: 6rem;
+  right: 0;
+  width: 6rem;
+  height: 6rem;
+  opacity: 0.5;
+}
+
+.blob3 {
+  bottom: 2.5rem;
+  left: 0;
+  width: 7rem;
+  height: 7rem;
+  transform: translateX(-33%);
+  opacity: 0.4;
+}
+
+.blob4 {
+  bottom: 10rem;
+  left: 6rem;
+  width: 4rem;
+  height: 4rem;
+  opacity: 0.3;
+}
