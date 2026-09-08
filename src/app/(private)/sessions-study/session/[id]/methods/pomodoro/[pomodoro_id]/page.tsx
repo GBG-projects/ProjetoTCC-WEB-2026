@@ -3,6 +3,6 @@ import { PomodoroForm } from "@/app/components/SessionStudy/forms";
 export default function PomodoroPage(){
 
 
-  PomodoroForm
-  
+  // <PomodoroForm session_id={123}/>
+
 }
