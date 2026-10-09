@@ -4,10 +4,6 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
-  Clock,
-  Layers,
-  BookOpen,
-  Share2,
   Loader2,
   Plus,
 } from "lucide-react";
@@ -82,44 +78,10 @@ const STATUS_LABEL: Record<string, string> = {
   concluido: "Concluído",
 };
 
-function normalizar(texto: string) {
-  return texto
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z]/g, "");
-}
-
-function identificarMetodosPorDados({
-  dadosPomodoro,
-  dadosFlashcard,
-  dadosMapaMental,
-  dadosLivre,
-}: {
-  dadosPomodoro: Pomodoro | null;
-  dadosFlashcard: FlashcardDeck | null;
-  dadosMapaMental: MapaMental | null;
-  dadosLivre: EstudoLivre | null;
-}): MetodoKey[] {
-  const metodos: MetodoKey[] = [];
-
-  if (dadosPomodoro) {
-    metodos.push("pomodoro");
-  }
-
-  if (dadosFlashcard) {
-    metodos.push("flashcard");
-  }
-
-  if (dadosMapaMental) {
-    metodos.push("mapa_mental");
-  }
-
-  if (dadosLivre) {
-    metodos.push("livre");
-  }
-
-  return metodos;
+function normalizarLista<T>(data: unknown): T[] {
+  if (Array.isArray(data)) return data as T[];
+  if (data == null) return [];
+  return [data as T];
 }
 
 function formatarDataHora(isoString?: string | null) {
@@ -145,7 +107,6 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
   const [sessao, setSessao] = useState<Sessao | null>(null);
 
   const [carregando, setCarregando] = useState(true);
-
   const [erro, setErro] = useState(false);
 
   const [mostrandoForm, setMostrandoForm] = useState(false);
@@ -169,19 +130,19 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
 
   const [carregandoPomodoro, setCarregandoPomodoro] = useState(false);
   const [erroPomodoro, setErroPomodoro] = useState(false);
-  const [dadosPomodoro, setDadosPomodoro] = useState<Pomodoro | null>(null);
+  const [pomodoros, setPomodoros] = useState<Pomodoro[]>([]);
 
   const [carregandoFlashcard, setCarregandoFlashcard] = useState(false);
   const [erroFlashcard, setErroFlashcard] = useState(false);
-  const [dadosFlashcard, setDadosFlashcard] = useState<FlashcardDeck | null>(null);
+  const [flashcardDecks, setFlashcardDecks] = useState<FlashcardDeck[]>([]);
 
   const [carregandoMapaMental, setCarregandoMapaMental] = useState(false);
   const [erroMapaMental, setErroMapaMental] = useState(false);
-  const [dadosMapaMental, setDadosMapaMental] = useState<MapaMental | null>(null);
+  const [mapasMentais, setMapasMentais] = useState<MapaMental[]>([]);
 
   const [carregandoLivre, setCarregandoLivre] = useState(false);
   const [erroLivre, setErroLivre] = useState(false);
-  const [dadosLivre, setDadosLivre] = useState<EstudoLivre | null>(null);
+  const [estudosLivres, setEstudosLivres] = useState<EstudoLivre[]>([]);
 
   // Pomodoro
   const carregarPomodoro = useCallback(async () => {
@@ -195,7 +156,7 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
         return;
       }
       const data = await res.json();
-      setDadosPomodoro(data);
+      setPomodoros(normalizarLista<Pomodoro>(data));
     } catch (err) {
       console.error(err);
       setErroPomodoro(true);
@@ -217,7 +178,7 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
         return;
       }
       const data = await res.json();
-      setDadosFlashcard(data);
+      setFlashcardDecks(normalizarLista<FlashcardDeck>(data));
     } catch (err) {
       console.error(err);
       setErroFlashcard(true);
@@ -239,7 +200,7 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
         return;
       }
       const data = await res.json();
-      setDadosMapaMental(data);
+      setMapasMentais(normalizarLista<MapaMental>(data));
     } catch (err) {
       console.error(err);
       setErroMapaMental(true);
@@ -261,7 +222,7 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
         return;
       }
       const data = await res.json();
-      setDadosLivre(data);
+      setEstudosLivres(normalizarLista<EstudoLivre>(data));
     } catch (err) {
       console.error(err);
       setErroLivre(true);
@@ -321,7 +282,8 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
         body.duracao = pomodoro.duracao;
         body.ciclos = pomodoro.ciclos;
       } else if (metodoSelecionado === "mapa_mental") {
-        body.descricao = mapaMental.descricao;
+        body.link = mapaMental.link;
+        
       } else if (metodoSelecionado === "livre") {
         body.meta = estudoLivre.meta;
       }
@@ -395,18 +357,49 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
     );
   }
 
-  const metodosDisponiveis = identificarMetodosPorDados({
-    dadosPomodoro,
-    dadosFlashcard,
-    dadosMapaMental,
-    dadosLivre,
-  });
-
   const carregandoDetalhes =
     carregandoPomodoro ||
     carregandoFlashcard ||
     carregandoMapaMental ||
     carregandoLivre;
+
+  type Instancia = {
+    metodoKey: MetodoKey;
+    id: number;
+    titulo: string;
+    status?: string;
+    criado_em: string;
+  };
+
+  const instancias: Instancia[] = [
+    ...pomodoros.map((p) => ({
+      metodoKey: "pomodoro" as const,
+      id: p.id,
+      titulo: p.titulo || "Pomodoro",
+      status: p.status,
+      criado_em: p.criado_em,
+    })),
+    ...flashcardDecks.map((f) => ({
+      metodoKey: "flashcard" as const,
+      id: f.id,
+      titulo: f.titulo || "Flashcard",
+      status: f.status,
+      criado_em: f.criado_em,
+    })),
+    ...mapasMentais.map((m) => ({
+      metodoKey: "mapa_mental" as const,
+      id: m.id,
+      titulo: m.titulo || "Mapa Mental",
+      criado_em: m.criado_em
+    })),
+    ...estudosLivres.map((e) => ({
+      metodoKey: "livre" as const,
+      id: e.id,
+      titulo: e.titulo || "Estudo Livre",
+      status: e.status,
+      criado_em: e.criado_em,
+    })),
+  ].sort((a, b) => new Date(b.criado_em).getTime() - new Date(a.criado_em).getTime());
 
   if (mostrandoForm) {
     return (
@@ -468,23 +461,24 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
               <p className={styles.estadoMensagem}>Carregando detalhes...</p>
             )}
 
-            {!carregandoDetalhes && metodosDisponiveis.length === 0 && (
+            {!carregandoDetalhes && instancias.length === 0 && (
               <div className={styles.estadoCentral} style={{ padding: "2rem 0" }}>
                 <p className={styles.estadoMensagem}>
-                  Nenhum registro desse método encontrado ainda para essa sessão.
+                  Nenhum registro encontrado ainda para essa sessão.
                 </p>
               </div>
             )}
 
-            {!carregandoDetalhes && metodosDisponiveis.length > 0 && (
+            {!carregandoDetalhes && instancias.length > 0 && (
               <div className={styles.grid}>
-                {metodosDisponiveis.map((metodoKey) => {
-                  const metodo = METODOS[metodoKey];
+                {instancias.map((instancia) => {
+                  const metodo = METODOS[instancia.metodoKey];
+                  const href = metodo.path(sessaoId, String(instancia.id));
 
                   return (
                     <Link
-                      key={metodoKey}
-                      href={metodo.path(sessaoId)}
+                      key={`${instancia.metodoKey}-${instancia.id}`}
+                      href={href}
                       className={styles.metodoCardLink}
                       style={{
                         background: metodo.corClara,
@@ -503,11 +497,15 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
                           className={styles.metodoCardTitulo}
                           style={{ color: metodo.cor }}
                         >
-                          {metodo.label}
+                          {instancia.titulo}
                         </p>
 
                         <p className={styles.metodoCardSubtitulo}>
-                          Abrir tela do método
+                          {metodo.label}
+                          {instancia.status &&
+                            ` · ${STATUS_LABEL[instancia.status] ?? instancia.status}`}
+                          {" · "}
+                          {formatarDataHora(instancia.criado_em)}
                         </p>
                       </div>
                     </Link>

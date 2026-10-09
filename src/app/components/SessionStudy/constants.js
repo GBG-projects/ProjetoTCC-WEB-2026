@@ -18,7 +18,7 @@ export const METODOS = {
     cor: "#35a2b0",
     corClara: "rgba(249, 115, 22, 0.15)",
     rota: (sessaoId) => `${API_URL}/api/sessao-estudo/${sessaoId}/pomodoro`,
-    path: (sessaoId) => `/sessions-study/session/${sessaoId}/pomodoro`,
+    path: (sessaoId, pomodoro_id) => `/sessions-study/session/${sessaoId}/methods/pomodoro/${pomodoro_id}`,
   },
   flashcard: {
     id: "flashcard",
@@ -30,7 +30,7 @@ export const METODOS = {
     cor: "#3b82f6",
     corClara: "rgba(59, 130, 246, 0.15)",
     rota: (sessaoId) => `${API_URL}/api/sessao-estudo/${sessaoId}/flashcards`,
-    path: (sessaoId) => `/sessions-study/session/${sessaoId}/flashcard`,
+    path: (sessaoId, flashcard_id) => `/sessions-study/session/${sessaoId}/methods/flashcard/${flashcard_id}`,
   },
   livre: {
     id: "livre",
@@ -42,7 +42,7 @@ export const METODOS = {
     cor: "#4353a5",
     corClara: "rgba(34, 197, 94, 0.15)",
     rota: (sessaoId) => `${API_URL}/api/sessao-estudo/${sessaoId}/livre`,
-    path: (sessaoId) => `/sessions-study/session/${sessaoId}/free`,
+    path: (sessaoId, livre_id) => `/sessions-study/session/${sessaoId}/methods/livre/${livre_id}`,
   },
   mapa_mental: {
     id: "mapa_mental",
@@ -54,7 +54,7 @@ export const METODOS = {
     cor: "#a855f7",
     corClara: "rgba(168, 85, 247, 0.15)",
     rota: (sessaoId) => `${API_URL}/api/sessao-estudo/${sessaoId}/mapa_mental`,
-    path: (sessaoId) => `/sessions-study/session/${sessaoId}/mind_map`,
+    path: (sessaoId, id) => `/sessions-study/session/${sessaoId}/methods/mind_map/${id}`,
   },
 };
 

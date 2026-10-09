@@ -1,8 +1,8 @@
-import { PomodoroForm } from "@/app/components/SessionStudy/forms";
+import PomodoroPage  from "@/app/components/SessionStudy/methodsPages/pomodoro/PomodoroPage";
 
-export default function PomodoroPage(){
+export default async  function Pomodoro({params}: {params: Promise<{pomodoro_id: string}>}) {
+  const {pomodoro_id} = await params;
 
-
-  // <PomodoroForm session_id={123}/>
+  return <PomodoroPage pomodoro_id={pomodoro_id} />;
 
 }

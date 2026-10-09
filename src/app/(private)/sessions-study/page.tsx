@@ -157,15 +157,6 @@ export default function SessionStudy() {
 
   return (
     <div className={styles.page}>
-      <Image
-        src="/logoFocus.png"
-        alt="Focus Flow"
-        width={10}
-        height={10}
-        priority
-        unoptimized
-        className={styles.logo}
-      />
       <div className={styles.content}>
         <main className={`${styles.card} ${styles.main}`}>
           <div className={styles.headerRow}>

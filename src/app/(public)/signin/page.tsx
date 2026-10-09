@@ -6,7 +6,6 @@ import styles from './signin.module.css'
 import { signIn } from 'next-auth/react'
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import pageStyles from '../../page.module.css'
 import { Eye, EyeOff } from "lucide-react";
 import { toastErro, toastSucesso } from "../../components/toasts/toastsPersonalizados";
 
@@ -16,12 +15,13 @@ export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false)
     const router = useRouter();
-// o login com google ta bugado, ajeitar dps
-    const loginGoogle = async()=>{
+
+    const loginGoogle = async () => {
         await signIn('google', {
-            callbackUrl:'/dashboard'
+            callbackUrl: '/dashboard'
         })
     }
+
     const loginCredentials = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true)
@@ -38,27 +38,36 @@ export default function Login() {
         }
         setLoading(false)
     };
+
     return (
-        <div className={pageStyles.page}>
-            <nav className={pageStyles.nav}>
-                <div className={pageStyles.brand}>
-                    <span className={pageStyles.brandName}>Focus Flow</span>
+        <div className={styles.container}>
+            <nav className={styles.nav}>
+                <div className={styles.brand}>
+                    <span className={styles.brandName}>Focus Flow</span>
                 </div>
-                <div className={pageStyles.navLinks}>
-                    <Link href="/signup" className={pageStyles["btn-links"]}>
+                <div className={styles.navLinks}>
+                    <Link href="/signup" className={styles.btnLink}>
                         Registrar-se
                     </Link>
                 </div>
             </nav>
 
-            <div className={styles.container}>
-                <div className={styles.heroGlow} />
-                <form action="" onSubmit={loginCredentials} className={styles.form}>
-                    <h1 className={pageStyles.title}>Entrar</h1>
-                    <div className={styles.inputFields}>
-                        <Input textLabel="Email" type="text" placeholder="Insira um email" value={email} id="email" setValue={setEmail} />
+            <main className={styles.main}>
+                <form onSubmit={loginCredentials} className={styles.card}>
+                    <h1 className={styles.title}>Entrar</h1>
+
+                    <div className={styles.field}>
+                        <Input
+                            textLabel="Email"
+                            type="text"
+                            placeholder="Insira um email"
+                            value={email}
+                            id="email"
+                            setValue={setEmail}
+                        />
                     </div>
-                    <div className={styles.inputFields}>
+
+                    <div className={styles.field}>
                         <Input
                             textLabel="Senha"
                             type={showPassword ? "text" : "password"}
@@ -67,18 +76,28 @@ export default function Login() {
                             id="password"
                             setValue={setPassword}
                             icon={
-                                <Button type="button" onClick={() => setShowPassword(!showPassword)} variant="icon" className={styles.iconButton}>
+                                <Button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    variant="icon"
+                                    className={styles.iconButton}
+                                >
                                     {showPassword ? <EyeOff /> : <Eye />}
                                 </Button>
                             }
                         />
                     </div>
-        
 
-                    <Button text={loading?"Entrando":"Entrar"} disabled={loading}/>
-                    <button type="button" onClick={loginGoogle}>entrar com google</button>
-                </form> 
-            </div>
+                    <Button
+                        text={loading ? "Entrando" : "Entrar"}
+                        disabled={loading}
+                        className={styles.btnCriar}
+                    />
+                    <button type="button" onClick={loginGoogle} className={styles.btnGhost}>
+                        Entrar com Google
+                    </button>
+                </form>
+            </main>
         </div>
     );
 }

@@ -1,0 +1,363 @@
+.container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #0d2c66 0%, #164a8f 50%, #2f7fce 100%);   
+}
+
+.blobTopRight {
+  position: absolute;
+  top: -60px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #4f8fe0, #2b62b0);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.blobTopRightSmall {
+  position: absolute;
+  top: 90px;
+  right: 60px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #3f7fd8;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.blobBottomLeft {
+  position: absolute;
+  bottom: -70px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #3f7fd8, #123a7a);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.blobBottomLeftSmall {
+  position: absolute;
+  bottom: 30px;
+  left: 120px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #2f6bc0;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: rgba(18, 36, 92, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 24px 28px;
+  backdrop-filter: blur(10px);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.headerTitle {
+  text-align: center;
+  color: #fff;
+}
+
+.headerTitle h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.headerTitle p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.btnGhost {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.btnGhost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.btnGhost:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.erro {
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #fca5a5;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 10px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+  min-height: 0;
+}
+
+@media (max-width: 860px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formSection {
+  background: rgba(14, 28, 74, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  background: rgba(35, 90, 170, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.textarea:focus {
+  border-color: #0ea5e9;
+}
+
+.counter {
+  align-self: flex-end;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 2px 0;
+}
+
+.btnCriar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #0ea5e9;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.btnCriar:hover:not(:disabled) {
+  background: #0c95d3;
+}
+
+.btnCriar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnCancelar {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+  align-self: center;
+}
+
+.btnCancelar:hover {
+  color: #fff;
+}
+
+.listSection {
+  background: rgba(14, 28, 74, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+
+.listHeader h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.listHeader p {
+  margin: 2px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+
+.listScroll {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding-right: 4px;
+  max-height: 480px;
+}
+
+.listScroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.listScroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.vazio {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  text-align: center;
+  padding: 24px 0;
+}
+
+.flashcardItem {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(35, 90, 170, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.flashcardText {
+  min-width: 0;
+}
+
+.flashcardPergunta {
+  margin: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flashcardResposta {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.flashcardActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.iconBtn,
+.iconBtnDanger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.iconBtn:hover {
+  background: #0ea5e9;
+  border-color: #0ea5e9;
+}
+
+.iconBtnDanger:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+.logo {
+  position: relative;
+  z-index: 10;
+  width: 100px;
+  height: 80px;
+  display: block;      /* remove o gap por baseline que <img>/inline elements geram */
+  object-fit: contain; /* evita distorcer caso a proporção não bata exatamente */
+  user-select: none;
+}

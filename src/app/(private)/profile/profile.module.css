@@ -1,29 +1,391 @@
-.photo {
+.page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.estado {
+  color: #fff;
+  font-size: 15px;
+  padding: 24px;
+}
+
+/* ---------- Card do topo ---------- */
+
+.headerCard {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(18, 36, 92, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 24px 28px;
+  backdrop-filter: blur(10px);
+}
+
+.avatarGrande,
+.avatarModal {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #2a2a3d;
-  color: #a78bfa;
-  border: 2px dashed rgba(115, 90, 213, 0.4);
-  border-radius: 50%;
-  cursor: pointer;
-
-  width: 130px;    /* ← obrigatório */
-  height: 130px;   /* ← obrigatório e igual ao width */
-  overflow: hidden;
   flex-shrink: 0;
-
-  font-size: 0.7rem;
-  text-align: center;
-  padding: 8px;
-  transition: border-color 0.2s;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  color: #164a8f;
 }
 
-.photo:hover {
-  border-color: rgba(115, 90, 213, 0.8);
+.avatarGrande {
+  width: 80px;
+  height: 80px;
 }
-.photo img {
+
+.avatarModal {
+  width: 112px;
+  height: 112px;
+}
+
+.avatarGrande img,
+.avatarModal img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.avatarGrande svg {
+  width: 64%;
+  height: 64%;
+}
+
+.avatarModal svg {
+  width: 64%;
+  height: 64%;
+}
+
+.headerInfo {
+  min-width: 0;
+  flex: 1;
+  color: #fff;
+}
+
+.headerInfo h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.headerInfo p {
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: underline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btnEditar {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btnEditar:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- Card de informações ---------- */
+
+.infoCard {
+  background: rgba(14, 28, 74, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 18px 16px 16px;
+  backdrop-filter: blur(10px);
+}
+
+.infoCard h2 {
+  margin: 0 0 12px 8px;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.infoLista {
+  margin: 0;
+  background: rgba(35, 90, 170, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.infoLinha {
+  display: grid;
+  grid-template-columns: minmax(150px, 240px) 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  color: #fff;
+}
+
+.infoLinha + .infoLinha {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.infoLinha dt {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.infoLinha dt svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  stroke-width: 1.5;
+}
+
+.infoLinha dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Modal ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(5, 15, 45, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: 100%;
+  max-width: 440px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  background: rgba(18, 36, 92, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 24px 28px 28px;
+  color: #fff;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.btnFechar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btnFechar:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fotoEditor {
+  display: flex;
+  justify-content: center;
+}
+
+.fotoBotao {
+  position: relative;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cameraBadge {
+  position: absolute;
+  right: 0;
+  bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0ea5e9;
+  border: 2px solid #12245c;
+  color: #fff;
+  transition: background 0.15s ease;
+}
+
+.fotoBotao:hover .cameraBadge {
+  background: #0c95d3;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campo label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.campo input {
+  width: 100%;
+  background: rgba(35, 90, 170, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.campo input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.campo input:focus {
+  border-color: #0ea5e9;
+}
+
+.campo input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.acoes {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.btnSalvar,
+.btnCancelar {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.btnSalvar {
+  background: #0ea5e9;
+  border: none;
+  color: #fff;
+}
+
+.btnSalvar:hover:not(:disabled) {
+  background: #0c95d3;
+}
+
+.btnCancelar {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.btnCancelar:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.btnSalvar:disabled,
+.btnCancelar:disabled,
+.btnFechar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Foco visível ---------- */
+
+.btnEditar:focus-visible,
+.btnFechar:focus-visible,
+.btnSalvar:focus-visible,
+.btnCancelar:focus-visible,
+.fotoBotao:focus-visible {
+  outline: 2px solid #7dd3fc;
+  outline-offset: 2px;
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 640px) {
+  .headerCard {
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .headerInfo {
+    flex-basis: calc(100% - 100px);
+  }
+
+  .btnEditar {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .infoLinha {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 14px 16px;
+  }
+
+  .acoes {
+    flex-direction: column-reverse;
+  }
 }

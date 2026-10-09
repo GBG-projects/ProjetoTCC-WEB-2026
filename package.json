@@ -10,14 +10,16 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.2.2",
+    "@excalidraw/excalidraw": "^0.18.1",
     "axios": "^1.15.0",
     "lucide-react": "^1.8.0",
     "next": "16.2.2",
     "next-auth": "^4.24.14",
     "pg": "^8.20.0",
     "pnpm": "^10.33.0",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-pdf": "^11.0.0",
     "sharp": "^0.35.3",
     "sonner": "^2.0.7"
   },
@@ -30,5 +32,10 @@
     "eslint-config-next": "16.2.2",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3"
+  },
+  "allowScripts": {
+    "sharp@0.34.5": true,
+    "sharp@0.35.3": true,
+    "unrs-resolver@1.11.1": true
   }
 }
