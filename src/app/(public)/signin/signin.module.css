@@ -1,4 +1,3 @@
-/* ===== Página ===== */
 .container {
   position: relative;
   display: flex;
@@ -8,7 +7,6 @@
   background: linear-gradient(135deg, #0d2c66 0%, #164a8f 50%, #2f7fce 100%);
 }
 
-/* ===== Navegação ===== */
 .nav {
   position: relative;
   z-index: 1;
@@ -56,7 +54,6 @@
   background: rgba(255, 255, 255, 0.16);
 }
 
-/* ===== Conteúdo ===== */
 .main {
   position: relative;
   z-index: 1;
@@ -89,7 +86,6 @@
   text-align: center;
 }
 
-/* ===== Campos ===== */
 .field {
   width: 80%;
   display: flex;
@@ -128,7 +124,6 @@
   border-color: #0ea5e9;
 }
 
-/* Botão de mostrar/ocultar senha */
 .iconButton {
   position: absolute;
   right: 12px;
@@ -149,7 +144,6 @@
   color: #fff;
 }
 
-/* ===== Botões ===== */
 .card .btnCriar {
   width: 80%;
   display: flex;
@@ -201,8 +195,6 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
-
-/* ===== Erro ===== */
 .erro {
   background: rgba(220, 38, 38, 0.15);
   border: 1px solid rgba(220, 38, 38, 0.4);
@@ -211,8 +203,6 @@
   padding: 8px 14px;
   border-radius: 10px;
 }
-
-/* ===== Responsivo ===== */
 @media (max-width: 520px) {
   .nav {
     padding: 16px 20px;
