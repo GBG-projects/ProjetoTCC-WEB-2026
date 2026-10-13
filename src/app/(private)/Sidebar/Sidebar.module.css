@@ -14,7 +14,7 @@
 
 @media (min-width: 1024px) {
   .sidebar {
-    width: 18rem; /* 288px */
+    width: 18rem;
   }
 }
 
@@ -58,7 +58,7 @@
 
 .subtitulo {
   font-size: 0.875rem;
-  color: #7dd3fc; /* sky-300 */
+  color: #7dd3fc; 
 }
 
 .nav {
@@ -89,7 +89,7 @@
 }
 
 .navItemAtivo {
-  background-color: #0ea5e9; /* sky-500 */
+  background-color: #0ea5e9;
   color: #ffffff;
 }
 

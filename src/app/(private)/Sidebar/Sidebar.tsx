@@ -14,7 +14,7 @@ const NAV_ITEMS = [
   { id: 'perfil', label: 'Meu Perfil', icon: User, href: '/profile' },
   { id: 'materiais', label: 'Materiais', icon: Folder, href: '/material' },
   { id: 'provas', label: 'Provas', icon: FileText, href: '/test' },
-  { id: 'relatorio', label: 'Relatório', icon: List, href: '/relatorio' },
+  { id: 'relatorio', label: 'Relatório', icon: List, href: '/report' },
 ];
 
 export default function Sidebar() {
@@ -29,7 +29,6 @@ export default function Sidebar() {
       <div className={styles.perfil}>
         <div className={styles.avatar}>
           {fotoUsuario ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img src={fotoUsuario} alt={nomeUsuario} />
           ) : (
             <User className={styles.avatarIcon} />

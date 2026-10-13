@@ -248,11 +248,10 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* cores dos badges de método */
-.badgePomodoro { background-color: #10b981; } /* emerald-500 */
-.badgeFlashcard { background-color: #8b5cf6; } /* violet-500 */
-.badgeLivre { background-color: #f43f5e; } /* rose-500 */
-.badgeMapaMental { background-color: #0ea5e9; } /* sky-500 */
+.badgePomodoro { background-color: #10b981; }
+.badgeFlashcard { background-color: #8b5cf6; } 
+.badgeLivre { background-color: #f43f5e; }
+.badgeMapaMental { background-color: #0ea5e9; }
 
 .estadoMensagem {
   padding: 1.5rem 0;
@@ -272,7 +271,7 @@
 
 .erroTexto {
   font-size: 0.875rem;
-  color: #fda4af; /* rose-300 */
+  color: #fda4af;
 }
 
 .tentarNovamenteBtn {
@@ -403,7 +402,7 @@
 }
 
 .menuExcluir {
-  color: #fda4af; /* rose-300 */
+  color: #fda4af; 
 }
 
 .footerTexto {
@@ -413,7 +412,6 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Bolhas decorativas */
 .blob {
   position: absolute;
   pointer-events: none;

@@ -88,7 +88,6 @@ export default function MateriaisPage() {
       <div className={styles.blobBottomLeft} />
 
       <div className={styles.layout}>
-        {/* <Sidebar /> */}
 
         <section className={styles.listSection}>
           <div className={styles.listHeader}>

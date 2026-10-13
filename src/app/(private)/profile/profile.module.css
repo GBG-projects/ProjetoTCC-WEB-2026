@@ -13,8 +13,6 @@
   padding: 24px;
 }
 
-/* ---------- Card do topo ---------- */
-
 .headerCard {
   display: flex;
   align-items: center;
@@ -111,7 +109,6 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* ---------- Card de informações ---------- */
 
 .infoCard {
   background: rgba(14, 28, 74, 0.55);
@@ -172,8 +169,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/* ---------- Modal ---------- */
 
 .overlay {
   position: fixed;
@@ -350,7 +345,6 @@
   cursor: not-allowed;
 }
 
-/* ---------- Foco visível ---------- */
 
 .btnEditar:focus-visible,
 .btnFechar:focus-visible,
@@ -360,8 +354,6 @@
   outline: 2px solid #7dd3fc;
   outline-offset: 2px;
 }
-
-/* ---------- Responsivo ---------- */
 
 @media (max-width: 640px) {
   .headerCard {

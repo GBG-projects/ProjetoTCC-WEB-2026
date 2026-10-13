@@ -7,10 +7,6 @@ import { toastErro, toastSucesso } from "@/app/components/toasts/toastsPersonali
 import { useUser } from "@/app/contexts/UserContext";
 import styles from './profile.module.css'
 
-/**
- * ATENÇÃO: a coluna `tempo_estudo_total` é INTEGER e a unidade não foi informada.
- * Ajuste aqui se o valor estiver em segundos em vez de minutos.
- */
 const TEMPO_ESTUDO_EM: 'minutos' | 'segundos' = 'minutos'
 
 interface Usuario {
@@ -91,14 +87,12 @@ export default function Profile() {
         getUser()
     }, [getUser])
 
-    // libera a URL temporária da imagem escolhida
     useEffect(() => {
         return () => {
             if (previewModal?.startsWith('blob:')) URL.revokeObjectURL(previewModal)
         }
     }, [previewModal])
 
-    // fecha o modal com Esc
     useEffect(() => {
         if (!modalAberto) return
         const onKey = (e: KeyboardEvent) => {
