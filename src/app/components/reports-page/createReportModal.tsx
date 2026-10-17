@@ -1,84 +1,105 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import styles from '../report.module.css'
-import type { TipoRelatorio } from '../types'
-import { TIPOS, lerErro, periodoDoAtalho, type Atalho } from '../utils'
+import { useState } from "react";
+import styles from "./report.module.css";
+import type { TipoRelatorio } from "./types";
+import {
+  TIPOS,
+  lerErro,
+  periodoDoAtalho,
+  type Atalho,
+} from "./utils";
 
 interface Props {
-  usuarioId: string
-  onClose: () => void
-  onCreated: () => void
+  usuarioId: string;
+  onClose: () => void;
+  onCreated: () => void;
 }
 
-type Erros = Partial<Record<'titulo' | 'tipo' | 'dataInicio' | 'dataFim', string>>
+type Erros = Partial<
+  Record<"titulo" | "tipo" | "dataInicio" | "dataFim", string>
+>;
 
 const ATALHOS: { id: Atalho; rotulo: string }[] = [
-  { id: 'ultimos7', rotulo: 'Últimos 7 dias' },
-  { id: 'ultimos30', rotulo: 'Últimos 30 dias' },
-  { id: 'mes', rotulo: 'Este mês' },
-]
+  { id: "ultimos7", rotulo: "Últimos 7 dias" },
+  { id: "ultimos30", rotulo: "Últimos 30 dias" },
+  { id: "mes", rotulo: "Este mês" },
+];
 
-export default function CreateReportModal({ usuarioId, onClose, onCreated }: Props) {
-  const [titulo, setTitulo] = useState('')
-  const [tipo, setTipo] = useState<TipoRelatorio | ''>('')
-  const [dataInicio, setDataInicio] = useState('')
-  const [dataFim, setDataFim] = useState('')
-  const [feedback, setFeedback] = useState('')
-  const [erros, setErros] = useState<Erros>({})
-  const [erroEnvio, setErroEnvio] = useState<string | null>(null)
-  const [enviando, setEnviando] = useState(false)
+export default function CreateReportModal({
+  usuarioId,
+  onClose,
+  onCreated,
+}: Props) {
+  const [titulo, setTitulo] = useState("");
+  const [tipo, setTipo] = useState<TipoRelatorio | "">("");
+  const [dataInicio, setDataInicio] = useState("");
+  const [dataFim, setDataFim] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [erros, setErros] = useState<Erros>({});
+  const [erroEnvio, setErroEnvio] = useState<string | null>(null);
+  const [enviando, setEnviando] = useState(false);
 
   function aplicarAtalho(atalho: Atalho) {
-    const { inicio, fim } = periodoDoAtalho(atalho)
-    setDataInicio(inicio)
-    setDataFim(fim)
-    setErros((prev) => ({ ...prev, dataInicio: undefined, dataFim: undefined }))
+    const { inicio, fim } = periodoDoAtalho(atalho);
+    setDataInicio(inicio);
+    setDataFim(fim);
+    setErros((prev) => ({
+      ...prev,
+      dataInicio: undefined,
+      dataFim: undefined,
+    }));
   }
 
   function validar(): Erros {
-    const novos: Erros = {}
-    if (!titulo.trim()) novos.titulo = 'Informe um título.'
-    if (!TIPOS.some((t) => t.valor === tipo)) novos.tipo = 'Selecione um tipo.'
-    if (!dataInicio) novos.dataInicio = 'Informe a data de início.'
-    if (!dataFim) novos.dataFim = 'Informe a data de fim.'
+    const novos: Erros = {};
+    if (!titulo.trim()) novos.titulo = "Informe um título.";
+    if (!TIPOS.some((t) => t.valor === tipo)) novos.tipo = "Selecione um tipo.";
+    if (!dataInicio) novos.dataInicio = "Informe a data de início.";
+    if (!dataFim) novos.dataFim = "Informe a data de fim.";
     if (dataInicio && dataFim && dataFim < dataInicio) {
-      novos.dataFim = 'A data final não pode ser anterior à inicial.'
+      novos.dataFim = "A data final não pode ser anterior à inicial.";
     }
-    return novos
+    return novos;
   }
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setErroEnvio(null)
+    e.preventDefault();
+    setErroEnvio(null);
 
-    const novosErros = validar()
-    setErros(novosErros)
-    if (Object.keys(novosErros).length > 0) return
+    const novosErros = validar();
+    setErros(novosErros);
+    if (Object.keys(novosErros).length > 0) return;
 
-    setEnviando(true)
+    setEnviando(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/relatorio`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          usuario_id: usuarioId,
-          titulo: titulo.trim(),
-          tipo,
-          data_inicio: dataInicio,
-          data_fim: dataFim,
-          feedback: feedback.trim() || null,
-        }),
-      })
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/relatorio`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            usuario_id: usuarioId,
+            titulo: titulo.trim(),
+            tipo,
+            data_inicio: dataInicio,
+            data_fim: dataFim,
+            feedback: feedback.trim() || null,
+          }),
+        },
+      );
 
-      if (!res.ok) throw new Error(await lerErro(res, 'Erro ao criar relatório.'))
+      if (!res.ok)
+        throw new Error(await lerErro(res, "Erro ao criar relatório."));
 
-      onCreated()
-      onClose()
+      onCreated();
+      onClose();
     } catch (err) {
-      setErroEnvio(err instanceof Error ? err.message : 'Erro ao criar relatório.')
+      setErroEnvio(
+        err instanceof Error ? err.message : "Erro ao criar relatório.",
+      );
     } finally {
-      setEnviando(false)
+      setEnviando(false);
     }
   }
 
@@ -106,7 +127,9 @@ export default function CreateReportModal({ usuarioId, onClose, onCreated }: Pro
               value={titulo}
               onChange={(e) => setTitulo(e.target.value)}
             />
-            {erros.titulo && <span className={styles.erroCampo}>{erros.titulo}</span>}
+            {erros.titulo && (
+              <span className={styles.erroCampo}>{erros.titulo}</span>
+            )}
           </div>
 
           <div className={styles.campo}>
@@ -117,7 +140,7 @@ export default function CreateReportModal({ usuarioId, onClose, onCreated }: Pro
               id="rel-tipo"
               className={styles.input}
               value={tipo}
-              onChange={(e) => setTipo(e.target.value as TipoRelatorio | '')}
+              onChange={(e) => setTipo(e.target.value as TipoRelatorio | "")}
             >
               <option value="" disabled>
                 Selecione
@@ -128,7 +151,9 @@ export default function CreateReportModal({ usuarioId, onClose, onCreated }: Pro
                 </option>
               ))}
             </select>
-            {erros.tipo && <span className={styles.erroCampo}>{erros.tipo}</span>}
+            {erros.tipo && (
+              <span className={styles.erroCampo}>{erros.tipo}</span>
+            )}
           </div>
 
           <div className={styles.atalhos}>
@@ -156,7 +181,9 @@ export default function CreateReportModal({ usuarioId, onClose, onCreated }: Pro
                 value={dataInicio}
                 onChange={(e) => setDataInicio(e.target.value)}
               />
-              {erros.dataInicio && <span className={styles.erroCampo}>{erros.dataInicio}</span>}
+              {erros.dataInicio && (
+                <span className={styles.erroCampo}>{erros.dataInicio}</span>
+              )}
             </div>
 
             <div className={styles.campo}>
@@ -171,7 +198,9 @@ export default function CreateReportModal({ usuarioId, onClose, onCreated }: Pro
                 min={dataInicio || undefined}
                 onChange={(e) => setDataFim(e.target.value)}
               />
-              {erros.dataFim && <span className={styles.erroCampo}>{erros.dataFim}</span>}
+              {erros.dataFim && (
+                <span className={styles.erroCampo}>{erros.dataFim}</span>
+              )}
             </div>
           </div>
 
@@ -190,15 +219,23 @@ export default function CreateReportModal({ usuarioId, onClose, onCreated }: Pro
           {erroEnvio && <div className={styles.mensagemErro}>{erroEnvio}</div>}
 
           <div className={styles.acoes}>
-            <button type="button" className={styles.botaoSecundario} onClick={onClose}>
+            <button
+              type="button"
+              className={styles.botaoSecundario}
+              onClick={onClose}
+            >
               Cancelar
             </button>
-            <button type="submit" className={styles.botaoPrimario} disabled={enviando}>
-              {enviando ? 'Criando...' : 'Criar relatório'}
+            <button
+              type="submit"
+              className={styles.botaoPrimario}
+              disabled={enviando}
+            >
+              {enviando ? "Criando..." : "Criar relatório"}
             </button>
           </div>
         </form>
       </div>
     </div>
-  )
+  );
 }

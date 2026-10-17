@@ -1,153 +1,241 @@
 'use client'
-import React, { useState } from 'react';
-import { signOut } from "next-auth/react";
-import Input from "@/app/components/Input/input/input";
-import styles from './dashboard.module.css';
-import { useUser } from "@/app/contexts/UserContext";
+import {useCallback, useEffect, useState } from 'react';
+import {
+  addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek,
+  eachDayOfInterval, isSameDay, isSameMonth, isToday, format,
+} from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { useUser } from '@/app/contexts/UserContext';
 import { toastErro, toastSucesso } from '@/app/components/toasts/toastsPersonalizados';
-import ConfirmButton from '@/app/components/Button/ConfirmButton';
+import Modal from './registrarQuestaoModal';
+import styles from './calendario.module.css';
 
-type ModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
+const API = process.env.NEXT_PUBLIC_API_URL;
+type Compromisso = {
+  id: number;
+  descricao: string;
+  data_entrega: string;
+  status: 'pendente' | 'concluido' | 'cancelado';
 };
 
-export function Modal({ isOpen, onClose }: ModalProps) {
-  if (!isOpen) return null;
-  const { user } = useUser();
-  const usuario_id = user?.id;
-  const [disabled, setDisabled] = useState<true|false>(false)
-  const [quantidadeTotal, setQuantidadeTotal] = useState<string>('0');
-  const [quantidadeCertas, setQuantidadeCertas] = useState<string>('0');
-  const [disciplina, setDisciplina] = useState<'Ciências humanas' | 'Ciências exatas' | 'Linguagens' | 'Matemática' | 'Nenhuma'>('Nenhuma');
-  const enviarDados = async() => {
-    if (isNaN(Number(quantidadeTotal)) || isNaN(Number(quantidadeCertas))) {
-      toastErro('Por favor, insira valores numéricos válidos para as quantidades.');
-      return;
-    }
-    else if(Number(quantidadeCertas) > Number(quantidadeTotal)){
-      toastErro('A quantidade de acertos não pode ser maior que a quantidade total de questões.');
-      return;
-    }
-    else if(Number(quantidadeTotal) < 0 || Number(quantidadeCertas) < 0){
-      toastErro('As quantidades não podem ser negativas.');
-      return;
-    }
-    else if(disciplina === 'Nenhuma'){
-      toastErro('Por favor, selecione uma disciplina.');
-      return;
-    }
-    else if(quantidadeTotal === '0'){
-      toastErro('A quantidade total de questões não pode ser zero.');
-      return;
-    }
-    const dados = {
-      usuario_id: usuario_id,
-      tipo_questao: disciplina, 
-      total_questoes: quantidadeTotal, 
-      total_acertos: quantidadeCertas, 
-      resolvida_em: new Date().toISOString()
-    };
-    console.log(new Date().toISOString())
-    setDisabled(true);
-    try{
-
-      toastErro('Ocorreu um erro ao enviar os dados. Por favor, tente novamente.');
-      return;
-    }
-    finally{
-      setQuantidadeTotal('0');
-      setQuantidadeCertas('0');
-      setDisciplina('Nenhuma');
-      setDisabled(false)
-    }
-
-   
-  };
-  return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <button className={styles.modalCloseButton} onClick={onClose} aria-label="Fechar modal">
-          &times;
-        </button>
-        <h2 className={styles.modalTitle}>Registrar questões</h2>
-
-        <div className={styles.modalForm}>
-          <Input
-            textLabel="Quantidade de questões resolvidas"
-            type="number"
-            placeholder="0"
-            value={quantidadeTotal}
-            id="quantidadeTotal"
-            setValue={setQuantidadeTotal}
-          />
-
-          <Input
-            textLabel="Quantidade de acertos"
-            type="number"
-            placeholder="0"
-            value={quantidadeCertas}
-            id="quantidadeCertas"
-            setValue={setQuantidadeCertas}
-          />
-
-          <div className={styles.selectWrapper}>
-            <label htmlFor="disciplina">Disciplina</label>
-            <select
-              id="disciplina"
-              className={styles.select}
-              value={disciplina}
-              onChange={(e) =>
-                setDisciplina(
-                  e.target.value as
-                    | 'Ciências humanas'
-                    | 'Ciências exatas'
-                    | 'Linguagens'
-                    | 'Matemática'
-                    | 'Nenhuma'
-                )
-              }
-            >
-              <option value="Nenhuma">Nenhuma</option>
-              <option value="Ciências humanas">Ciências humanas</option>
-              <option value="Ciências exatas">Ciências exatas</option>
-              <option value="Linguagens">Linguagens</option>
-              <option value="Matemática">Matemática</option>
-            </select>
-          </div>
-            <ConfirmButton text="Enviar questões"
-              type="submit"
-              onClick={enviarDados}
-              disabled={disabled}
-              >
-              </ConfirmButton>
-          
-        </div>
-      </div>
-    </div>
-  );
-}
+const DIAS_SEMANA = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
 
 export default function Dashboard() {
   const { user } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  return (
-    <div className={styles.page}>
-      <div className={styles.content}>
-        <h1>Ola {user?.nome}</h1>
-        <h1 className={styles.title}>Dashboard</h1>
-        <button className={styles.button} onClick={() => signOut({ callbackUrl: '/' })}>
-          sair
-        </button>
-      </div>
+  const [mesAtual, setMesAtual] = useState(() => startOfMonth(new Date()));
+  const [diaSelecionado, setDiaSelecionado] = useState<Date>(new Date());
+  const [compromissos, setCompromissos] = useState<Compromisso[]>([]);
+  const [novaDescricao, setNovaDescricao] = useState('');
+const [novaHora, setNovaHora] = useState('23:59');
+const [novaData, setNovaData] = useState(format(new Date(), 'yyyy-MM-dd'));
 
-      <button onClick={() => setIsModalOpen(true)} className={styles.openModalButton}>
-        Registrar questões
-      </button>
+  const dias = eachDayOfInterval({
+    start: startOfWeek(startOfMonth(mesAtual)),
+    end: endOfWeek(endOfMonth(mesAtual)),
+  });
+
+const chaveDia = (d: Date) => format(d, 'yyyy-MM-dd');
+
+const carregarCompromissos = useCallback(async () => {
+  if (!user?.id) return;
+  try {
+    const res = await fetch(`${API}/api/compromisso/usuario/${user.id}`);
+    if (!res.ok) throw new Error('Erro ao buscar compromissos');
+    const json = await res.json();
+    setCompromissos(Array.isArray(json) ? json : []);
+  } catch (err) {
+    console.error('erro ao carregar compromissos', err);
+    toastErro('Não foi possível carregar os compromissos.');
+  }
+}, [user?.id]);
+
+useEffect(() => {
+  carregarCompromissos();
+}, [carregarCompromissos]);
+
+const doDia = (dia: Date) =>
+  compromissos.filter((c) => String(c.data_entrega).slice(0, 10) === chaveDia(dia));
+
+  const compromissosSelecionado = doDia(diaSelecionado);
+
+
+  const criarCompromisso = async () => {
+  if (!novaDescricao.trim() || !novaData) {
+  toastErro('Informe a descrição e a data do compromisso.');
+  return;
+}
+  try {
+    const res = await fetch(`${API}/api/compromisso/usuario/${user?.id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        descricao: novaDescricao.trim(),
+        data_entrega: `${novaData} ${novaHora}:00`,
+      }),
+    });
+    if (!res.ok) throw new Error('Erro ao criar compromisso');
+    toastSucesso('Compromisso criado!');
+    setNovaDescricao('');
+    await carregarCompromissos();
+  } catch (err) {
+    console.error(err);
+    toastErro('Não foi possível criar o compromisso.');
+  }
+};
+
+const alternarStatus = async (id: number) => {
+  try {
+    const res = await fetch(`${API}/api/compromisso/${id}`, { method: 'PUT' });
+    if (!res.ok) throw new Error('Erro ao atualizar compromisso');
+    await carregarCompromissos();
+  } catch (err) {
+    console.error(err);
+    toastErro('Não foi possível atualizar o compromisso.');
+  }
+};
+
+const selecionarDia = (dia: Date) => {
+  setDiaSelecionado(dia);
+  setNovaData(chaveDia(dia));
+};
+
+const mudarData = (valor: string) => {
+  setNovaData(valor);
+  if (!valor) return;
+  const dia = new Date(`${valor}T00:00:00`);
+  setDiaSelecionado(dia);
+  setMesAtual(startOfMonth(dia));
+};
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.blobTopRight} />
+      <div className={styles.blobTopRightSmall} />
+      <div className={styles.blobBottomLeft} />
+      <div className={styles.blobBottomLeftSmall} />
+
+      <div className={styles.card}>
+        <div className={styles.header}>
+          <div className={styles.headerTitle}>
+            <h1>Olá, {user?.nome}</h1>
+            <p>Seus compromissos e estudos em um só lugar</p>
+          </div>
+        </div>
+
+        <div className={styles.content}>
+          <section className={styles.calendarSection}>
+            <div className={styles.calendarHeader}>
+              <button className={styles.btnGhost} onClick={() => setMesAtual(subMonths(mesAtual, 1))}>
+                ‹
+              </button>
+              <h2>{format(mesAtual, "MMMM 'de' yyyy", { locale: ptBR })}</h2>
+              <button className={styles.btnGhost} onClick={() => setMesAtual(addMonths(mesAtual, 1))}>
+                ›
+              </button>
+            </div>
+
+            <div className={styles.weekdays}>
+              {DIAS_SEMANA.map((d) => (
+                <span key={d}>{d}</span>
+              ))}
+            </div>
+
+            <div className={styles.grid}>
+              {dias.map((dia) => {
+                const itens = doDia(dia);
+                const classes = [
+                  styles.day,
+                  !isSameMonth(dia, mesAtual) ? styles.dayOutside : '',
+                  isToday(dia) ? styles.dayToday : '',
+                  isSameDay(dia, diaSelecionado) ? styles.daySelected : '',
+                ].join(' ');
+
+                return (
+                  <button key={dia.toISOString()} className={classes} onClick={() => selecionarDia(dia)}>
+                    <span className={styles.dayNumber}>{format(dia, 'd')}</span>
+                    {itens.slice(0, 2).map((c) => (
+                      <span key={c.id} className={`${styles.chip} ${styles[`chip_${c.status}`]}`}>
+                        {c.descricao}
+                      </span>
+                    ))}
+                    {itens.length > 2 && <span className={styles.more}>+{itens.length - 2}</span>}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+
+          <aside className={styles.side}>
+            <section className={styles.panel}>
+  <h3>{format(diaSelecionado, "d 'de' MMMM", { locale: ptBR })}</h3>
+
+  {compromissosSelecionado.length === 0 ? (
+    <p className={styles.vazio}>Nenhum compromisso neste dia.</p>
+  ) : (
+    <div className={styles.lista}>
+      {compromissosSelecionado.map((c) => (
+        <div key={c.id} className={styles.item}>
+          <p className={`${styles.itemTitulo} ${c.status === 'concluido' ? styles.itemConcluido : ''}`}>
+            {c.descricao}
+          </p>
+          <button
+            className={styles.iconBtn}
+            onClick={() => alternarStatus(c.id)}
+            disabled={c.status === 'cancelado'}
+            aria-label="Alternar status"
+          >
+            ✓
+          </button>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <div className={styles.form}>
+    <input
+      className={styles.input}
+      placeholder="Novo compromisso"
+      value={novaDescricao}
+      onChange={(e) => setNovaDescricao(e.target.value)}
+    />
+
+    <div className={styles.linhaData}>
+  <input
+    className={styles.input}
+    type="date"
+    value={novaData}
+    onChange={(e) => mudarData(e.target.value)}
+  />
+  <input
+    className={styles.input}
+    type="time"
+    value={novaHora}
+    onChange={(e) => setNovaHora(e.target.value)}
+  />
+</div>
+
+    <button className={styles.btnCriar} onClick={criarCompromisso}>Adicionar</button>
+  </div>
+</section>
+
+            <section className={styles.panel}>
+              <h3>Questões</h3>
+              <p className={styles.panelTexto}>Registre as questões que você resolveu.</p>
+              <button className={styles.btnCriar} onClick={() => setIsModalOpen(true)}>
+                Registrar questões
+              </button>
+            </section>
+
+            <section className={styles.panel}>
+              <h3>Notificações</h3>
+              <p className={styles.vazio}>Em breve.</p>
+            </section>
+          </aside>
+        </div>
+      </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }
-
-

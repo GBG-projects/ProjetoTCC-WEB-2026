@@ -404,3 +404,86 @@
     width: 100%;
   }
 }
+
+.voltar {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.voltar:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.detalheTopo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detalheTitulo {
+  margin: 0;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.metaLinha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.feedback {
+  margin: 0;
+  background: rgba(14, 28, 74, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.secao {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: rgba(14, 28, 74, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.secaoTitulo {
+  margin: 0;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.graficoScroll {
+  overflow-x: auto;
+}
+
+.graficoScroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.graficoScroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}

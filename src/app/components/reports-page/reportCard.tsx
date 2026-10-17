@@ -1,12 +1,16 @@
-import Link from 'next/link'
-import styles from '../report.module.css'
-import type { Relatorio } from '../types'
-import { formatarPeriodo, rotuloTipo, tituloExibicao } from '../utils'
+import Link from "next/link";
+import styles from "./report.module.css";
+import type { Relatorio } from "./types";
+import {
+  formatarPeriodo,
+  rotuloTipo,
+  tituloExibicao,
+} from "./utils";
 
 interface Props {
-  relatorio: Relatorio
-  excluindo: boolean
-  onExcluir: (id: number) => void
+  relatorio: Relatorio;
+  excluindo: boolean;
+  onExcluir: (id: number) => void;
 }
 
 export default function ReportCard({ relatorio, excluindo, onExcluir }: Props) {
@@ -26,9 +30,9 @@ export default function ReportCard({ relatorio, excluindo, onExcluir }: Props) {
           disabled={excluindo}
           onClick={() => onExcluir(relatorio.id)}
         >
-          {excluindo ? 'Excluindo...' : 'Excluir'}
+          {excluindo ? "Excluindo..." : "Excluir"}
         </button>
       </div>
     </article>
-  )
+  );
 }

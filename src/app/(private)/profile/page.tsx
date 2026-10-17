@@ -20,12 +20,12 @@ interface Usuario {
     created_at: string
 }
 
-function formatarTempo(valor: number) {
-    const totalMinutos = TEMPO_ESTUDO_EM === 'segundos' ? Math.floor(valor / 60) : valor
-    const horas = Math.floor(totalMinutos / 60)
-    const minutos = totalMinutos % 60
-    if (horas === 0) return `${minutos} min`
-    return `${horas}h ${String(minutos).padStart(2, '0')}min`
+function formatarTempo(segundos: number) {
+  const totalMinutos = Math.floor(segundos / 60)
+  const horas = Math.floor(totalMinutos / 60)
+  const minutos = totalMinutos % 60
+  if (horas === 0) return `${minutos} min`
+  return `${horas}h ${String(minutos).padStart(2, '0')}min`
 }
 
 function formatarData(iso: string) {

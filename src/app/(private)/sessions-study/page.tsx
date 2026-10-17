@@ -153,7 +153,6 @@ export default function SessionStudy() {
       toastErro("Não foi possível excluir a sessão.");
     }
   }
-  console.log(sessoes.map((s) => s.id));
 
   return (
     <div className={styles.page}>

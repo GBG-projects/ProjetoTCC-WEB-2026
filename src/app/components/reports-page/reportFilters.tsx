@@ -1,15 +1,15 @@
-import styles from '../report.module.css'
-import type { TipoRelatorio } from '../types'
-import { TIPOS } from '../utils'
+import styles from "./report.module.css";
+import type { TipoRelatorio } from "./types";
+import { TIPOS } from "@/app/components/reports-page/utils";
 
 interface Props {
-  tipo: TipoRelatorio | ''
-  de: string
-  ate: string
-  onTipoChange: (valor: TipoRelatorio | '') => void
-  onDeChange: (valor: string) => void
-  onAteChange: (valor: string) => void
-  onLimpar: () => void
+  tipo: TipoRelatorio | "";
+  de: string;
+  ate: string;
+  onTipoChange: (valor: TipoRelatorio | "") => void;
+  onDeChange: (valor: string) => void;
+  onAteChange: (valor: string) => void;
+  onLimpar: () => void;
 }
 
 export default function ReportFilters({
@@ -21,7 +21,7 @@ export default function ReportFilters({
   onAteChange,
   onLimpar,
 }: Props) {
-  const temFiltro = Boolean(tipo || de || ate)
+  const temFiltro = Boolean(tipo || de || ate);
 
   return (
     <div className={styles.filtros}>
@@ -33,7 +33,7 @@ export default function ReportFilters({
           id="filtro-tipo"
           className={styles.input}
           value={tipo}
-          onChange={(e) => onTipoChange(e.target.value as TipoRelatorio | '')}
+          onChange={(e) => onTipoChange(e.target.value as TipoRelatorio | "")}
         >
           <option value="">Todos</option>
           {TIPOS.map((t) => (
@@ -72,10 +72,14 @@ export default function ReportFilters({
       </div>
 
       {temFiltro && (
-        <button type="button" className={styles.botaoSecundario} onClick={onLimpar}>
+        <button
+          type="button"
+          className={styles.botaoSecundario}
+          onClick={onLimpar}
+        >
           Limpar filtros
         </button>
       )}
     </div>
-  )
+  );
 }
