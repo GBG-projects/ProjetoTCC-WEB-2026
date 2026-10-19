@@ -1,11 +1,11 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { signOut } from "next-auth/react";
-import Input from "@/app/components/Input/input/input";
+import Input from "@/app/components/Input/Input";
 import styles from './dashboard.module.css';
 import { useUser } from "@/app/contexts/UserContext";
 import { toastErro, toastSucesso } from '@/app/components/toasts/toastsPersonalizados';
-import ConfirmButton from '@/app/components/Button/ConfirmButton';
+import Button from '@/app/components/Button/Button';
 
 type ModalProps = {
   isOpen: boolean;
@@ -186,7 +186,7 @@ export default function Modal({ isOpen, onClose }: ModalProps) {
             </select>
           </div>
 
-          <ConfirmButton text="Enviar questões" type="submit" onClick={enviarDados} disabled={disabled} />
+          <Button text="Enviar questões" type="submit" onClick={enviarDados} disabled={disabled} />
         </div>
       </div>
     </div>

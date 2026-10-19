@@ -1,0 +1,50 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.label {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(35, 90, 170, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.input::placeholder { color: rgba(255, 255, 255, 0.6); }
+.input:focus { border-color: #0ea5e9; }
+.input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.input:-webkit-autofill {
+  -webkit-text-fill-color: #fff;
+  box-shadow: 0 0 0 1000px rgba(35, 90, 170, 0.9) inset;
+}
+
+.comIcone { padding-right: 44px; }
+
+.icone {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+}

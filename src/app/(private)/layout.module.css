@@ -5,5 +5,5 @@
 
 .mainWrapper {
   flex: 1;
-  min-width: 0; /* evita overflow com tabelas largas */
+  min-width: 0;
 }

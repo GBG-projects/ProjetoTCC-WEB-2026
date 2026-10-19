@@ -1,24 +1,29 @@
-import styles from './button.module.css';
+import React from "react";
+import styles from "./Button.module.css";
 
-type buttonProps = {
-    text?: string;
-    type?: "button" | "submit" | "reset";
-    onClick?: () => void;
-    children?: React.ReactNode;
-    variant?: 'primary' | 'icon';
-    className?: string;
-    disabled?: boolean;
-}
+type ButtonProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
+  text?: string;
+  variant?: "primary" | "ghost" | "icon";
+  children?: React.ReactNode;
+};
 
-export default function Button({ text, onClick, type, children, variant = 'primary', className , disabled}: buttonProps) {
+export default function Button({
+  text,
+  variant = "primary",
+  className,
+  children,
+  type,
+  ...rest
+}: ButtonProps) {
+  const classes = [styles.button, styles[variant], className].filter(Boolean).join(" ");
+
   return (
-    <button 
-      className={`${variant === 'icon' ? styles.iconButton : styles.button} ${className || ''}`}
-      onClick={onClick} 
-      type={type}
-      disabled={disabled}
+    <button
+      {...rest}
+      type={type ?? (variant === "icon" ? "button" : "submit")}
+      className={classes}
     >
-      {children || text}
+      {children ?? text}
     </button>
-  )
+  );
 }

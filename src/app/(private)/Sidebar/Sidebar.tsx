@@ -55,7 +55,7 @@ export default function Sidebar() {
         })}
 
         <button
-          onClick={() => signOut({ callbackUrl: '/login' })}
+          onClick={() => signOut({ callbackUrl: '/signin' })}
           className={`${styles.navItem} ${styles.sair}`}
         >
           <LogOut />
