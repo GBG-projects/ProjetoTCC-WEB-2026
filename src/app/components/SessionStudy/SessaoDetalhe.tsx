@@ -279,7 +279,7 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
       };
 
       if (metodoSelecionado === "pomodoro") {
-        body.duracao = pomodoro.duracao;
+        body.duracao = pomodoro.duracao*60;
         body.ciclos = pomodoro.ciclos;
       } else if (metodoSelecionado === "mapa_mental") {
         body.link = mapaMental.link;
@@ -290,7 +290,7 @@ export default function SessaoDetalhe({ sessaoId }: { sessaoId: string }) {
 
       const ROTA_POR_METODO: Record<string, string> = {
         pomodoro: "pomodoro",
-        flashcard: "flashcards", // plural no backend
+        flashcard: "flashcards", 
         mapa_mental: "mapa_mental",
         livre: "livre",
       };

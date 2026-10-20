@@ -19,7 +19,6 @@ export default function ProvasPage() {
   const [provas, setProvas] = useState<Prova[]>([]);
   const [selecionadoId, setSelecionadoId] = useState<number | null>(null);
   const [busca, setBusca] = useState("");
-  const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
 
   const gerando = useRef<Set<number>>(new Set());
@@ -35,7 +34,6 @@ export default function ProvasPage() {
         setSelecionadoId(data[0]?.id ?? null);
       })
       .catch((e) => setErro(e.message))
-      .finally(() => setCarregando(false));
   }, []);
 
   useEffect(() => {
@@ -75,7 +73,6 @@ export default function ProvasPage() {
 
   const selecionada = provas.find((p) => p.id === selecionadoId) ?? null;
 
-  if (carregando) return <p className={styles.vazio}>Carregando…</p>;
   if (erro) return <p className={styles.erro}>{erro}</p>;
 
   return (

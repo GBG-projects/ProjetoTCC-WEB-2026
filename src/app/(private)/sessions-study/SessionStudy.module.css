@@ -543,3 +543,48 @@
   opacity: .6;
   cursor: not-allowed;
 }
+
+.blobTopRight {
+  position: absolute;
+  top: -60px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #4f8fe0, #2b62b0);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.blobTopRightSmall {
+  position: absolute;
+  top: 90px;
+  right: 60px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #3f7fd8;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.blobBottomLeft {
+  position: absolute;
+  bottom: -70px;
+  left: -50px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #3f7fd8, #123a7a);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.blobBottomLeftSmall {
+  position: absolute;
+  bottom: 30px;
+  left: 120px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #2f6bc0;
+  opacity: 0.45;
+  pointer-events: none;
+}

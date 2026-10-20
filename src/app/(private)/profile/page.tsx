@@ -160,7 +160,7 @@ export default function Profile() {
     }
 
     if (loading || !perfil) {
-        return <div className={styles.estado}>Carregando...</div>
+        return null;
     }
 
     const informacoes = [
@@ -173,6 +173,12 @@ export default function Profile() {
     ]
 
     return (
+
+        <div className={styles.container}>
+        <div className={styles.blobTopRight} />
+        <div className={styles.blobTopRightSmall} />
+        <div className={styles.blobBottomLeft} />
+        <div className={styles.blobBottomLeftSmall} />
         <section className={styles.page}>
             <header className={styles.headerCard}>
                 <Avatar src={perfil.foto} className={styles.avatarGrande} />
@@ -284,5 +290,6 @@ export default function Profile() {
                 </div>
             )}
         </section>
+    </div>
     )
 }

@@ -156,6 +156,10 @@ export default function SessionStudy() {
 
   return (
     <div className={styles.page}>
+      <div className={styles.blobTopRight} />
+      <div className={styles.blobTopRightSmall} />
+      <div className={styles.blobBottomLeft} />
+      <div className={styles.blobBottomLeftSmall} />
       <div className={styles.content}>
         <main className={`${styles.card} ${styles.main}`}>
           <div className={styles.headerRow}>

@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Pencil, Trash2, Plus, ArrowLeft, Play } from "lucide-react";
 import styles from "./flashcard.module.css";
-import SessaoFlashCards from "./SessaoFlashcard"; // ajuste o caminho se o arquivo estiver em outra pasta
+import SessaoFlashCards from "./SessaoFlashcard";
 
 interface Flashcard {
   id: number;
@@ -35,7 +35,6 @@ export default function CriarFlashCards({
   const [salvando, setSalvando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
 
-  // NOVO: controla se está no formulário de criação/edição ou na sessão de estudo
   const [modo, setModo] = useState<"criar" | "sessao">("criar");
 
   const fetchFlashcards = useCallback(async () => {
@@ -115,7 +114,6 @@ export default function CriarFlashCards({
     }
   };
 
-  // NOVO: quando em modo "sessao", renderiza SessaoFlashCards em vez do formulário
   if (modo === "sessao") {
     return (
       <SessaoFlashCards
@@ -148,8 +146,8 @@ export default function CriarFlashCards({
           <button
             className={styles.btnGhost}
             onClick={() => {
-              setModo("sessao");        // ALTERADO: agora troca de tela de verdade
-              onIniciar?.(flashcard_id); // mantido para compatibilidade, caso o pai queira ouvir esse evento
+              setModo("sessao");   
+              onIniciar?.(flashcard_id);
             }}
             type="button"
             disabled={flashcards.length === 0}

@@ -70,7 +70,6 @@ export default function PomodoroPage({ pomodoro_id: id }: PomodoroPageProps) {
     }
   }, [id]);
 
-  // Busca inicial
   useEffect(() => {
     if (!id) return;
     setCarregando(true);

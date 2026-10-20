@@ -40,9 +40,6 @@ type Notificacao = {
   data_entrega: string;
 };
 
-
-
-
 export default function Dashboard() {
   const { user } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,12 +59,12 @@ export default function Dashboard() {
   const [notificacoes, setNotificacoes] = useState<Notificacao[]>([]);
   const vistas = useRef<Set<number>>(new Set());
   const primeiraCarga = useRef(true);
-const [antecedencias, setAntecedencias] = useState<number[]>([1]);
+  const [antecedencias, setAntecedencias] = useState<number[]>([1]);
 
-const alternarAntecedencia = (d: number) =>
-  setAntecedencias((prev) =>
-    prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d]
-  );
+  const alternarAntecedencia = (d: number) =>
+    setAntecedencias((prev) =>
+      prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d],
+    );
   useEffect(() => {
     if (!user?.id) return;
 
@@ -76,7 +73,7 @@ const alternarAntecedencia = (d: number) =>
         const res = await fetch(`${API}/api/notificacao/usuario/${user.id}`);
         if (!res.ok) return;
         const lista: Notificacao[] = await res.json();
-setNotificacoes(lista);
+        setNotificacoes(lista);
 
         lista.forEach((n) => {
           if (!vistas.current.has(n.id)) {
@@ -94,6 +91,7 @@ setNotificacoes(lista);
     const intervalo = setInterval(buscar, 30_000);
     return () => clearInterval(intervalo);
   }, [user?.id]);
+  
   const carregarCompromissos = useCallback(async () => {
     if (!user?.id) return;
     try {
@@ -128,10 +126,10 @@ setNotificacoes(lista);
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-  descricao: novaDescricao.trim(),
-  data_entrega: `${novaData} ${novaHora}:00`,
-  antecedencias,
-}),
+          descricao: novaDescricao.trim(),
+          data_entrega: `${novaData} ${novaHora}:00`,
+          antecedencias,
+        }),
       });
       if (!res.ok) throw new Error("Erro ao criar compromisso");
       toastSucesso("Compromisso criado!");
@@ -171,21 +169,25 @@ setNotificacoes(lista);
 
   const naoLidas = notificacoes.filter((n) => !n.lida).length;
 
-const formatarEntrega = (iso: string) => {
-  const s = String(iso);
-  return `${s.slice(8, 10)}/${s.slice(5, 7)} às ${s.slice(11, 16)}`;
-};
+  const formatarEntrega = (iso: string) => {
+    const s = String(iso);
+    return `${s.slice(8, 10)}/${s.slice(5, 7)} às ${s.slice(11, 16)}`;
+  };
 
-const marcarLida = async (id: number) => {
-  try {
-    const res = await fetch(`${API}/api/notificacao/${id}`, { method: 'PATCH' });
-    if (!res.ok) throw new Error('Erro ao marcar como lida');
-    setNotificacoes((prev) => prev.map((n) => (n.id === id ? { ...n, lida: true } : n)));
-  } catch (err) {
-    console.error(err);
-    toastErro('Não foi possível marcar como lida.');
-  }
-};
+  const marcarLida = async (id: number) => {
+    try {
+      const res = await fetch(`${API}/api/notificacao/${id}`, {
+        method: "PATCH",
+      });
+      if (!res.ok) throw new Error("Erro ao marcar como lida");
+      setNotificacoes((prev) =>
+        prev.map((n) => (n.id === id ? { ...n, lida: true } : n)),
+      );
+    } catch (err) {
+      console.error(err);
+      toastErro("Não foi possível marcar como lida.");
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -311,18 +313,18 @@ const marcarLida = async (id: number) => {
                   />
                 </div>
                 <div className={styles.antecedencias}>
-  <span className={styles.panelTexto}>Avisar:</span>
-  {OPCOES_ANTECEDENCIA.map((d) => (
-    <button
-      key={d}
-      type="button"
-      className={`${styles.chipOpcao} ${antecedencias.includes(d) ? styles.chipOpcaoAtiva : ''}`}
-      onClick={() => alternarAntecedencia(d)}
-    >
-      {d === 0 ? 'No horário' : `${d}d antes`}
-    </button>
-  ))}
-</div>
+                  <span className={styles.panelTexto}>Avisar:</span>
+                  {OPCOES_ANTECEDENCIA.map((d) => (
+                    <button
+                      key={d}
+                      type="button"
+                      className={`${styles.chipOpcao} ${antecedencias.includes(d) ? styles.chipOpcaoAtiva : ""}`}
+                      onClick={() => alternarAntecedencia(d)}
+                    >
+                      {d === 0 ? "No horário" : `${d}d antes`}
+                    </button>
+                  ))}
+                </div>
                 <button className={styles.btnCriar} onClick={criarCompromisso}>
                   Adicionar
                 </button>
@@ -343,31 +345,42 @@ const marcarLida = async (id: number) => {
             </section>
 
             <section className={styles.panel}>
-  <h3>
-    Notificações
-    {naoLidas > 0 && <span className={styles.contador}>{naoLidas}</span>}
-  </h3>
+              <h3>
+                Notificações
+                {naoLidas > 0 && (
+                  <span className={styles.contador}>{naoLidas}</span>
+                )}
+              </h3>
 
-  {notificacoes.length === 0 ? (
-    <p className={styles.vazio}>Nenhuma notificação.</p>
-  ) : (
-    <div className={styles.lista}>
-      {notificacoes.map((n) => (
-        <div key={n.id} className={`${styles.item} ${n.lida ? styles.itemLida : ''}`}>
-          <div className={styles.itemTexto}>
-            <p className={styles.itemTitulo}>{n.mensagem}</p>
-            <span className={styles.itemData}>Entrega: {formatarEntrega(n.data_entrega)}</span>
-          </div>
-          {!n.lida && (
-            <button className={styles.iconBtn} onClick={() => marcarLida(n.id)} aria-label="Marcar como lida">
-              ✓
-            </button>
-          )}
-        </div>
-      ))}
-    </div>
-  )}
-</section>
+              {notificacoes.length === 0 ? (
+                <p className={styles.vazio}>Nenhuma notificação.</p>
+              ) : (
+                <div className={styles.lista}>
+                  {notificacoes.map((n) => (
+                    <div
+                      key={n.id}
+                      className={`${styles.item} ${n.lida ? styles.itemLida : ""}`}
+                    >
+                      <div className={styles.itemTexto}>
+                        <p className={styles.itemTitulo}>{n.mensagem}</p>
+                        <span className={styles.itemData}>
+                          Entrega: {formatarEntrega(n.data_entrega)}
+                        </span>
+                      </div>
+                      {!n.lida && (
+                        <button
+                          className={styles.iconBtn}
+                          onClick={() => marcarLida(n.id)}
+                          aria-label="Marcar como lida"
+                        >
+                          ✓
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
           </aside>
         </div>
       </div>
