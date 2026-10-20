@@ -31,7 +31,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 }, []);
 
 const fetchUser = useCallback(async () => {
-  console.log("[UserContext] id:", session?.user?.id, "API:", process.env.NEXT_PUBLIC_API_URL);
+
+  const { data: session, status } = useSession();
+console.log("[UserContext]", status, session?.user?.id);
   if (!session?.user?.id) return;
   setLoading(true);
   try {
