@@ -30,20 +30,30 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   setUser(prev => prev ? { ...prev, ...dados } : null);
 }, []);
 
+const userId = session?.user?.id;
+
 const fetchUser = useCallback(async () => {
-  if (!session?.user?.id) return;
+  if (!userId) return;
   setLoading(true);
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/usuario/${session.user.id}`);
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/api/usuario/${userId}`;
+    const response = await fetch(url);
     if (!response.ok) return;
-    const data = await response.json();
-    setUser(data);
+    setUser(await response.json());
   } catch (error) {
-    console.error('Erro ao buscar usuário:', error);
+    console.error("Erro ao buscar usuário:", error);
   } finally {
     setLoading(false);
   }
-}, [session?.user?.id]);
+}, [userId]);
+
+useEffect(() => {
+  if (status === "unauthenticated") {
+    setUser(null); 
+    return;
+  }
+  fetchUser();
+}, [status, userId, fetchUser]);
 
 const recarregarUser = useCallback(async () => {
   await fetchUser();
