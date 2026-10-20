@@ -22,18 +22,18 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | null>(null);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const userId = session?.user?.id;
+  
   const atualizarUser = useCallback((dados: Partial<User>) => {
   setUser(prev => prev ? { ...prev, ...dados } : null);
 }, []);
 
 const fetchUser = useCallback(async () => {
 
-  const { data: session, status } = useSession();
-console.log("[UserContext]", status, session?.user?.id);
   if (!session?.user?.id) return;
   setLoading(true);
   try {
@@ -53,6 +53,7 @@ const recarregarUser = useCallback(async () => {
 }, [fetchUser]);
 
 useEffect(() => {
+  console.log("[UserContext]", status, userId);
   fetchUser();
 }, [fetchUser]);
 
