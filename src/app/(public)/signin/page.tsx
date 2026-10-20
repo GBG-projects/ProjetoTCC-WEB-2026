@@ -38,6 +38,7 @@ export default function Login() {
     } else {
       toastSucesso("Login executado com sucesso");
       router.push("/dashboard");
+      router.refresh();
     }
     setLoading(false);
   };
