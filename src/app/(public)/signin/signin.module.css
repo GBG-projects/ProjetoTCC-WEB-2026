@@ -218,3 +218,21 @@
     width: 100%;
   }
 }
+
+.esqueciWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin: -0.25rem 0 1rem;
+}
+
+.esqueciSenha {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+}
+
+.esqueciSenha:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}

@@ -70,32 +70,38 @@ export default function Login() {
             />
           </div>
 
-          <div className={styles.field}>
-            <Input
-              textLabel="Senha"
-              type={showPassword ? "text" : "password"}
-              placeholder="Insira uma senha"
-              value={password}
-              id="password"
-              setValue={setPassword}
-              icon={
-                <Button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  variant="icon"
-                  className={styles.iconButton}
-                >
-                  {showPassword ? <EyeOff /> : <Eye />}
-                </Button>
-              }
-            />
-          </div>
+       <div className={styles.field}>
+  <Input
+    textLabel="Senha"
+    type={showPassword ? "text" : "password"}
+    placeholder="Insira uma senha"
+    value={password}
+    id="password"
+    setValue={setPassword}
+    icon={
+      <Button
+        type="button"
+        onClick={() => setShowPassword(!showPassword)}
+        variant="icon"
+        className={styles.iconButton}
+      >
+        {showPassword ? <EyeOff /> : <Eye />}
+      </Button>
+    }
+  />
+</div>
 
-          <Button
-            text={loading ? "Entrando" : "Entrar"}
-            disabled={loading}
-            className={styles.btnCriar}
-          />
+<div className={styles.esqueciWrapper}>
+  <Link href="/recuperar-senha" className={styles.esqueciSenha}>
+    Esqueci minha senha
+  </Link>
+</div>
+
+<Button
+  text={loading ? "Entrando" : "Entrar"}
+  disabled={loading}
+  className={styles.btnCriar}
+/>
           <button
             type="button"
             onClick={loginGoogle}

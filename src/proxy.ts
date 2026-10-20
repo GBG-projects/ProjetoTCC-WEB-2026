@@ -13,7 +13,9 @@ const public_pages = [
   "/",
   "/signin",
   "/signup",
-  "/verificado"
+  "/verificado",
+  "/redefinir-senha",
+  "/recuperar-senha"
 ]
 
 function isPublicPage(pathname: string){
