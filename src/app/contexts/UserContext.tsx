@@ -53,7 +53,6 @@ const recarregarUser = useCallback(async () => {
 }, [fetchUser]);
 
 useEffect(() => {
-  console.log("[UserContext]", status, userId);
   fetchUser();
 }, [fetchUser]);
 

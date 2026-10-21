@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Timer, Check, X, Sprout, RefreshCw, Loader2 } from "lucide-react";
+import { Timer, Check, X, Sprout, RefreshCw, Loader2, ArrowLeft } from "lucide-react";
 import styles from "./pomodoro.module.css";
 
-const DURACAO_PAUSA = 300; // precisa bater com o valor fixo do backend
+const DURACAO_PAUSA = 300;
 
 type Fase = "foco" | "pausa" | "concluido";
 type Status = "ativo" | "pausado" | "concluido";
@@ -41,9 +41,10 @@ function formatarTempo(segundos: number) {
 
 interface PomodoroPageProps {
   pomodoro_id: string;
+  onVoltar: ()=> void;
 }
 
-export default function PomodoroPage({ pomodoro_id: id }: PomodoroPageProps) {
+export default function PomodoroPage({ pomodoro_id: id , onVoltar}: PomodoroPageProps) {
   const router = useRouter();
 
   const [pomodoro, setPomodoro] = useState<PomodoroData | null>(null);
@@ -76,7 +77,6 @@ export default function PomodoroPage({ pomodoro_id: id }: PomodoroPageProps) {
     buscarEstado().finally(() => setCarregando(false));
   }, [id, buscarEstado]);
 
-  // Polling enquanto ativo
   useEffect(() => {
     const deveFazerPolling = pomodoro?.status === "ativo" && pomodoro.fase !== "concluido";
 
@@ -140,7 +140,6 @@ export default function PomodoroPage({ pomodoro_id: id }: PomodoroPageProps) {
     }
   }
 
-  // Duração total da fase atual, pra calcular o progresso do círculo
   const duracaoFaseAtual = useMemo(() => {
     if (!pomodoro) return 0;
     if (pomodoro.fase === "foco") return pomodoro.duracao;
@@ -193,9 +192,12 @@ export default function PomodoroPage({ pomodoro_id: id }: PomodoroPageProps) {
 
   return (
     <div className={styles.page}>
-      <img src="/logoFocus.png" alt="Focus Flow" className={styles.logo} />
-
+        <button className={styles.btnGhost} onClick={onVoltar} type="button">
+            <ArrowLeft size={18} />
+            Voltar
+          </button>
       <div className={styles.content}>
+        
         <div className={`${styles.card} ${styles.main}`}>
           <div className={styles.header}>
             <div className={styles.headerTitleRow}>

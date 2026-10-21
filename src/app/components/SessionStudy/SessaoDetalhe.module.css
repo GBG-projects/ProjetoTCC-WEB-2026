@@ -28,9 +28,6 @@
   margin: 0 auto;
 }
 
-/* =========================
-   VOLTAR
-========================= */
 
 .voltarLink {
   display: inline-flex;
@@ -53,10 +50,6 @@
   color: #ffffff;
   transform: translateX(-2px);
 }
-
-/* =========================
-   CARD PRINCIPAL
-========================= */
 
 .card {
   position: relative;
@@ -82,9 +75,6 @@
   }
 }
 
-/* =========================
-   HEADER
-========================= */
 
 .header {
   display: flex;
@@ -148,10 +138,6 @@
   white-space: nowrap;
 }
 
-/* =========================
-   SEÇÃO
-========================= */
-
 .section {
   border-radius: 1rem;
 
@@ -183,9 +169,6 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* =========================
-   ESTADOS
-========================= */
 
 .estadoCentral {
   display: flex;
@@ -235,10 +218,6 @@
 
   font-size: 0.875rem;
 }
-
-/* =========================
-   BOTÃO VOLTAR
-========================= */
 
 .voltarBtn {
   display: inline-flex;
@@ -334,9 +313,6 @@
   overflow-wrap: anywhere;
 }
 
-/* =========================
-   STATUS
-========================= */
 
 .statusPill {
   display: inline-flex;
@@ -353,9 +329,6 @@
   font-weight: 600;
 }
 
-/* =========================
-   ANOTAÇÕES
-========================= */
 
 .anotacoes {
   margin: 0;
@@ -374,10 +347,6 @@
 
   line-height: 1.6;
 }
-
-/* =========================
-   MIRO
-========================= */
 
 .linkMiro {
   display: inline-flex;
@@ -406,10 +375,6 @@
 
   transform: translateY(-1px);
 }
-
-/* =========================
-   FLASHCARDS
-========================= */
 
 .listaFlashcards {
   display: flex;
@@ -454,9 +419,6 @@
   line-height: 1.5;
 }
 
-/* =========================
-   FOOTER
-========================= */
 
 .footerTexto {
   margin: 1.5rem 0 0;
@@ -467,10 +429,6 @@
 
   font-size: 0.875rem;
 }
-
-/* =========================
-   BOLHAS DECORATIVAS
-========================= */
 
 .blob {
   position: absolute;
@@ -525,10 +483,6 @@
 
   opacity: 0.3;
 }
-
-/* =========================
-   RESPONSIVIDADE
-========================= */
 
 @media (max-width: 639px) {
   .page {

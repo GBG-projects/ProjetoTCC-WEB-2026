@@ -357,7 +357,7 @@
   z-index: 10;
   width: 100px;
   height: 80px;
-  display: block;      /* remove o gap por baseline que <img>/inline elements geram */
-  object-fit: contain; /* evita distorcer caso a proporção não bata exatamente */
+  display: block; 
+  object-fit: contain;
   user-select: none;
 }

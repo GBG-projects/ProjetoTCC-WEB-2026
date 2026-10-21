@@ -6,6 +6,7 @@ import type { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
 import type { ExcalidrawElement } from "@excalidraw/excalidraw/element/types";
 import "@excalidraw/excalidraw/index.css";
 import styles from "./mindMap.module.css";
+import { ArrowLeft } from "lucide-react";
 
 const Excalidraw = dynamic(
   async () => (await import("@excalidraw/excalidraw")).Excalidraw,
@@ -93,9 +94,10 @@ async function saveTime(mindMapId: string, segundos: number): Promise<void> {
 interface MindMapProps {
   mindMapId: string;
   onFinish?: (elapsedSeconds: number) => void;
+  onVoltar: () => void;
 }
 
-export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
+export default function MindMap({ mindMapId, onFinish , onVoltar}: MindMapProps) {
   const [initialData, setInitialData] = useState<MindMapDocument | null>(null);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -165,7 +167,6 @@ export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
     setErrorMessage(null);
     onFinish?.(seconds);
   } catch (err) {
-    // pausa em vez de finalizar, para o usuário poder tentar de novo
     setTimer({ status: "paused", acumulado: total, inicio: null });
     setStatus("error");
     setErrorMessage(err instanceof Error ? err.message : "Erro ao registrar o tempo");
@@ -182,7 +183,6 @@ export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
         if (cancelled) return;
         const data: MindMapDocument =
           doc ?? { elements: [], files: {}, backgroundColor: "#ffffff" };
-        // Assinatura inicial: evita salvar de novo o que acabou de ser carregado
         lastSignature.current = signature(data.elements, data.backgroundColor, data.files);
         setInitialData(data);
       })
@@ -198,7 +198,6 @@ export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
     };
   }, [mindMapId]);
 
-  // ---------- autosave ----------
   const flush = useCallback(async () => {
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
@@ -214,7 +213,7 @@ export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
       setStatus("saved");
       setErrorMessage(null);
     } catch (err) {
-      pendingDoc.current ??= doc; // mantém para tentar de novo na próxima mudança
+      pendingDoc.current ??= doc; 
       setStatus("error");
       setErrorMessage(err instanceof Error ? err.message : "Erro ao salvar o mind map");
     }
@@ -223,7 +222,7 @@ export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
   const handleChange = useCallback(
     (elements: readonly ExcalidrawElement[], appState: AppState, files: BinaryFiles) => {
       const sig = signature(elements, appState.viewBackgroundColor, files);
-      if (sig === lastSignature.current) return; // nada mudou de verdade
+      if (sig === lastSignature.current) return;
 
       pendingDoc.current = {
         elements,
@@ -238,7 +237,6 @@ export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
     [flush],
   );
 
-  // Salva imediatamente ao esconder a aba ou sair da tela
   useEffect(() => {
     const onHide = () => {
       if (document.visibilityState === "hidden") void flush();
@@ -250,7 +248,6 @@ export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
     };
   }, [flush]);
 
-  // ---------- render ----------
   const statusClass =
     status === "saving"
       ? styles.statusSaving
@@ -271,11 +268,16 @@ export default function MindMap({ mindMapId, onFinish }: MindMapProps) {
       <div className={styles.blobBottomLeftSmall} />
 
       <div className={styles.topBar}>
+         <button className={styles.btnGhost} onClick={onVoltar} type="button">
+            <ArrowLeft size={18} />
+            Voltar
+          </button>
         <div
           className={`${styles.timer} ${isRunning ? styles.timerRunning : ""} ${
             isFinished ? styles.timerFinished : ""
           }`}
         >
+         
           <span className={styles.timerDot} />
           <span className={styles.timerDisplay}>{formatTime(elapsed)}</span>
 

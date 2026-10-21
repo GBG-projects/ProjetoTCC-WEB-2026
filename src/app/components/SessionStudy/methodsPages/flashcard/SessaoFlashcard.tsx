@@ -17,16 +17,13 @@ type DeckStatus = "carregando" | "ativo" | "pausado" | "concluido";
 
 interface SessaoFlashCardsProps {
   deckId: string;
-  // Estado inicial vindo do lugar onde o deck foi listado (ex: GET do deck),
-  // já que a rota /iniciar não retorna tempo_gasto acumulado de sessões anteriores.
-  tempoGastoInicial?: number; // em segundos
+  tempoGastoInicial?: number;
   onVoltar?: () => void;
   onConcluido?: () => void;
 }
 
 const API = process.env.NEXT_PUBLIC_API_URL;
 
-// Ajuste aqui se os paths reais forem diferentes
 const rotaIniciar = (id: string) => `${API}/api/flashcard_deck/${id}/iniciar`;
 const rotaPausar = (id: string) => `${API}/api/flashcard_deck/${id}/pausar`;
 const rotaConcluir = (id: string) => `${API}/api/flashcard_deck/${id}/concluir`;
@@ -52,8 +49,8 @@ export default function SessaoFlashCards({
   const [erro, setErro] = useState<string | null>(null);
 
   const [status, setStatus] = useState<DeckStatus>("carregando");
-  const [tempoGasto, setTempoGasto] = useState(tempoGastoInicial); // acumulado, autoritativo do servidor
-  const [iniciadoEm, setIniciadoEm] = useState<string | null>(null); // ISO timestamp do período ativo atual
+  const [tempoGasto, setTempoGasto] = useState(tempoGastoInicial); 
+  const [iniciadoEm, setIniciadoEm] = useState<string | null>(null);
   const [tempoExibido, setTempoExibido] = useState(tempoGastoInicial);
 
   const [indiceAtual, setIndiceAtual] = useState(0);
@@ -61,7 +58,6 @@ export default function SessaoFlashCards({
 
   const acaoEmAndamento = useRef(false);
 
-  // Busca os cards do deck
   useEffect(() => {
     let ativo = true;
     (async () => {
@@ -82,13 +78,10 @@ export default function SessaoFlashCards({
     };
   }, [deckId]);
 
-  // Inicia a sessão automaticamente ao entrar na tela
   useEffect(() => {
     handleIniciar();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deckId]);
 
-  // Relógio: atualiza a cada segundo enquanto ativo
   useEffect(() => {
     if (status !== "ativo" || !iniciadoEm) {
       setTempoExibido(tempoGasto);
